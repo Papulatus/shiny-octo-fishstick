@@ -18,6 +18,36 @@
 - **超紧凑桌面式 UI**：Radix Icons 优先。
 - 采用前检查框架包、tree-shaking、可访问文本（`aria-label` / tooltip）和品牌图标授权。
 
+## UI 术语与 Agent Prompt 辅助
+
+### NameThatUI — UI 元素视觉词典与精确命名助手
+
+| 字段 | 信息 |
+| --- | --- |
+| 官网 | [namethatui.com](https://namethatui.com/) |
+| 作者/动态 | [@argofowl](https://x.com/argofowl) |
+| 形态 | 在线 UI 术语词典与搜索工具；不是可确认的开源代码仓库 |
+| 收录时内容 | 71 个 UI 元素词条，覆盖 macOS 与 Web |
+
+**用途**：当你、设计师或 Agent 知道“长什么样”却不知道专业名称时，用自然语言模糊描述检索对应 UI 元素。它会给出标准术语、相关平台/API symbol，以及一段可直接粘贴给 Coding Agent 的精确实现提示。
+
+例如可以用“菜单栏图标后面的浅色胶囊”“拖动时抓住的一排点”“页面加载时的骨架”等口语化描述，定位到 `Menu Bar Extra`、`Resize Handle`、`Skeleton` 等更准确的术语。收录时其词条涵盖：Popover/Dropdown/Tooltip 的区别、Modal/Drawer/Sheet、Combobox、Command Palette、Bento Grid、Masonry、Focus Ring、Truncation、Progress indicators 等。
+
+**适合什么**：
+
+- 给 Agent 写 UI 改造需求前，先把含混的视觉描述转成组件/交互术语。
+- 设计评审、Bug 报告、设计系统文档中统一命名，减少“那个三个点”“那个浮层”式沟通歧义。
+- 学习 macOS AppKit 和 Web UI 的常用组件名、差异及语义边界。
+
+**推荐工作流**：
+
+1. 在 NameThatUI 搜索或浏览，确认该元素的标准名称与相近概念区别。
+2. 将其生成/提供的术语和 prompt 作为需求输入，再补充项目约束：技术栈、设计 token、暗色模式、无障碍、响应式规则。
+3. 要求 Agent 先复用现有组件库；不要因知道一个术语就随意引入新的 UI 依赖。
+4. 最后人工核验键盘操作、焦点顺序、ARIA 语义、移动端和空状态。
+
+**注意**：该网站是知识与命名参考，不是某个组件的授权来源。具体组件代码、设计资产、框架 API 和商标使用仍需回到各自上游的许可证与文档核验。
+
 ## UI 组件与灵感
 
 ### Uiverse Galaxy
