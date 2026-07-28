@@ -43,6 +43,28 @@ FMHY 是一个大量免费资源的索引站，主题包括 AI、音频、开发
 3. API Key 放 Secret；实现超时、重试、缓存、熔断和备用 provider。
 4. 生产系统应有供应商评估和监控，不能只靠开源列表。
 
+## API 发现
+
+### Public APIs — 公共 API 目录
+
+| 字段 | 信息 |
+| --- | --- |
+| 上游 | [public-apis/public-apis](https://github.com/public-apis/public-apis) |
+| 许可证 | MIT |
+| 形式 | 社区维护的 Markdown 目录；按主题列出可供程序调用的 API |
+| 收录时星标 | 453,056 |
+| 上游最近推送 | 2026-07-25 |
+
+**定位**：面向开发者和 Agent 的 API 发现入口。目录按 Animals、Art & Design、Authentication、Business、Documents、Email、Finance、Geocoding、News、Open Data、Security、Transportation 等主题汇集候选服务，并给出名称、简介、认证方式、HTTPS、CORS 等线索。
+
+**正确使用方式**：把它当作“供应商发现索引”，不是 API 可用性、免费额度、长期维护、隐私安全或商用授权的担保。收录时 README 还含 APILayer 赞助/产品推广区，因此需区分目录条目与商业推广内容。
+
+1. 从目录筛选候选后，必须阅读**该 API 官方文档与条款**，而非只看此仓库的简短描述。
+2. 核查认证、免费层、计费、请求限制、地域、数据更新频率、弃用政策、SLA 与数据处理协议。
+3. 所有 API Key 放在 Secret；实现请求超时、重试、缓存、熔断、错误观测和备用 provider。
+4. 对涉及金融、身份、位置、邮件、个人数据的接口额外核查合规、数据最小化和跨境处理要求。
+5. 给 Agent 接入 API 时只开放经过验证的少量工具，不要让其从目录中任意挑选并直接调用未知第三方服务。
+
 ## 邮箱助手（mail.seoml.com）— 邮箱服务导航
 
 | 字段 | 信息 |
