@@ -74,6 +74,32 @@ Page Agent 的定位是“生活在网页里的 GUI Agent”：在自己的网�
 - LLM API Key 应在后端/受控代理保存；直接放到浏览器前端会泄露。
 - Page Agent 适合**增强自家页面**，不是服务端大规模网页爬虫或未授权网站自动化方案。
 
+## Agent Reach — 多渠道网络调研能力层
+
+| 字段 | 信息 |
+| --- | --- |
+| 上游 | [Panniantong/Agent-Reach](https://github.com/Panniantong/Agent-Reach) |
+| 许可证 | MIT |
+| 实现 | Python CLI、SKILL.md、MCP/上游 CLI 集成 |
+| 收录时星标 | 61,419 |
+| 上游最近推送 | 2026-07-25 |
+
+**定位**：不是又一个单一爬虫，而是给 Claude Code、Codex、Cursor、OpenClaw 等 Agent 提供“网络信息获取能力选型、安装、体检与路由”的能力层。它根据渠道提供首选/备用后端，例如网页阅读、GitHub、YouTube 字幕、B站、RSS、语义搜索，以及需要用户登录态的 X、Reddit、Facebook、Instagram、小红书、LinkedIn 等。
+
+**工作方式**：安装后用 `agent-reach doctor` 真实检查各渠道的可用后端；Skill 让 Agent 知道何时使用 Jina Reader、`gh`、`yt-dlp`、RSS、Exa/MCP 或已授权的浏览器会话。它更像“受维护的工具路由表”，底层读取实际仍由上游工具执行。
+
+**适合**：经常让 Agent 做跨网页、视频、代码仓库、RSS、社媒和公开资料调研，同时希望减少“工具过期/换代后重新踩坑”的个人开发环境。
+
+**安装前的安全审查**：
+
+- 上游安装流程可能执行 `pip install`、系统包/Node/gh CLI 安装、MCP 配置和 Skill 文件写入；先用 `--dry-run` 或 `--safe` 审阅动作，再在测试环境验证。
+- 不要让它在生产主机或高权限 Agent 中无审查地自动安装依赖；尤其不要自动开放 `exec` 权限或修改全局 Agent 配置。
+- Cookie、Token 和浏览器登录态等同账户权限。上游建议其配置保存在本机；仍应使用专用低权限账号、文件权限 `600`、密钥轮换和最小化渠道启用。
+- 有登录态的社媒自动化可能违反平台规则或触发封号。只用专用账号，遵守条款，禁止抓取私密数据或绕过访问控制。
+- 它会更新“当前最佳后端”的判断；每次更新前应审阅 release、变更的上游工具和新增加的权限需求。
+
+**推荐采用路径**：先在开发机启用无凭据的网页/GitHub/YouTube/RSS 渠道，跑 `doctor`；随后按需、逐项启用需要登录态的渠道。不要将其与拥有主机文件读写、Docker socket 或生产凭据的 Agent 混用。
+
 ## scroll-world — 滚动驱动的 3D 场景飞行落地页 Skill
 
 | 字段 | 信息 |
