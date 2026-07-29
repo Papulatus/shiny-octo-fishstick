@@ -182,6 +182,54 @@ Skill 层：选择研究入口与固定产出结构
 
 ## 研究与回测框架
 
+### TA-Lib Python — 成熟的技术指标与 K 线形态识别库
+
+| 字段 | 信息 |
+| --- | --- |
+| 上游 | [TA-Lib/ta-lib-python](https://github.com/TA-Lib/ta-lib-python) |
+| 官方文档 | [ta-lib.github.io/ta-lib-python](https://ta-lib.github.io/ta-lib-python/) · [PyPI：TA-Lib](https://pypi.org/project/TA-Lib/) |
+| 许可证 | BSD-2-Clause |
+| 语言/依赖 | Python >= 3.9；Cython、NumPy；封装底层 TA-Lib C 库 |
+| 收录时版本 | v0.7.1（PyPI `TA-Lib` 0.7.1） |
+| 收录时星标 | 约 12.2k |
+| 上游最近发布 | 2026-07-16（v0.7.1） |
+
+**定位**：TA-Lib 的高性能 Python 绑定，是量化研究和技术分析中常用的“指标计算层”，不是行情源、回测引擎、策略框架或交易系统。它以 Cython 而非旧版 SWIG 绑定底层库；上游称相对旧绑定可获得更好的效率，并支持 `numpy.ndarray`、Pandas `Series` 与 Polars `Series`。
+
+**核心能力**：
+
+- 提供 150+ 技术分析函数，包括 SMA/EMA、MACD、RSI、ADX、ATR、布林带、Stochastic、成交量及价格变换等；不同函数有各自的 warm-up/lookback 要求。
+- 支持 K 线形态识别（candlestick pattern recognition）；形态命中是规则结果，不代表预测结论或交易建议。
+- 同时提供直接函数 API 和抽象 API，适合在数据清洗、特征工程、选股研究、回测前指标计算或研究报告中调用。
+- 当前发行版提供 macOS（含 Apple Silicon）、Linux、Windows 等平台的二进制 wheel；大多数常见环境可以直接 `python -m pip install TA-Lib`。当 wheel 不可用时，需先安装底层 TA-Lib C 库；macOS 可用 `brew install ta-lib`，并按需设置 `TA_INCLUDE_PATH` / `TA_LIBRARY_PATH`。
+
+**接入示例**：
+
+```bash
+python -m pip install TA-Lib pandas
+```
+
+```python
+import talib
+
+# close 应是按时间升序、经过复权/口径确认的价格数组或 Series
+rsi_14 = talib.RSI(close, timeperiod=14)
+macd, signal, histogram = talib.MACD(
+    close, fastperiod=12, slowperiod=26, signalperiod=9
+)
+upper, middle, lower = talib.BBANDS(close, timeperiod=20)
+```
+
+**适合**：已经有合法行情数据、希望稳定且快速计算经典技术指标的 Python 研究项目；可作为 LEAN、Lumibot、pandas/Polars 研究管线或自建 Agent 工具的底层特征计算组件。若要用 Agent 调用，建议只暴露经过白名单约束的指标、标的、日期区间与数据集，而不是让模型任意执行 Python 或读取本地账户配置。
+
+**工程与数据边界**：
+
+1. **输入先于指标**：库不提供市场数据。必须单独处理数据供应商许可、复权、时区、停牌、缺失值、币种与延迟；同一个指标在不同数据口径下可得不同结果。
+2. **NaN 与预热期**：每个指标都可能在开头输出 NaN；底层 TA-Lib 对中间 NaN 通常会向后传播。不能直接把 NaN、未预热指标或不同时间粒度的数据送进策略判断。
+3. **指标不是信号**：RSI/MACD/K 线形态是历史价格变换，不能单独证明可交易性。任何规则都应做样本外验证，并纳入费用、滑点、流动性、停牌和幸存者偏差。
+4. **安装与供应链**：优先使用官方 PyPI wheel 或固定版本；源码构建依赖底层 C 库与编译环境，部署时要记录 `TA-Lib`、Python、NumPy 和操作系统版本。不要从非官方二进制下载站引入未核验 wheel。
+5. **许可**：Python 绑定采用 BSD-2-Clause，便于集成；但底层 TA-Lib C 库、行情数据商、经纪商接口及项目自身代码各有独立条款，商业分发前应逐项复核。
+
 ### LEAN — QuantConnect 事件驱动量化引擎
 
 | 字段 | 信息 |
