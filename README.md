@@ -31,7 +31,7 @@
 
 ## 当前重点收录
 
-- **金融与量化**：Kronos、A-Stock Data、stock-api、QuantSpace、Lumibot、WorldQuant Miner。
+- **金融与量化**：Kronos、A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner。
 - **Agent 与网页**：ego lite、CloakBrowser、Page Agent、scroll-world、Scrapling。
 - **视觉、设计与办公**：Qwen Image Multiple Angles 3D Camera、Supervision、Larkboat、Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy。
 - **资源发现**：FMHY、Public APIs、邮箱助手。
