@@ -103,6 +103,33 @@ npx -y stock-api mcp
 
 **限制与风险**：评分、买卖点和 LLM 解释均可能受数据缺失、提示词、模型变更、新闻噪声和幸存者偏差影响。README 的“零成本/5 分钟部署”描述的是运行便利性，而不是研究质量、实时性或收益保证。
 
+### LLMQuant Hermes — Hermes 专用金融分析、MCP 数据与定时观察工作流
+
+| 字段 | 信息 |
+| --- | --- |
+| 上游 | [LLMQuant/llmquant-hermes](https://github.com/LLMQuant/llmquant-hermes) |
+| 关联上游 | [LLMQuant Data MCP](https://github.com/LLMQuant/data-mcp) · [LLMQuant/skills](https://github.com/LLMQuant/skills) |
+| 许可证 | MIT |
+| 形态 | Hermes Agent Skills、Remote/stdio MCP 配置样例、Cron playbook、SOUL/AGENTS 模板 |
+| 收录时星标 | 5 |
+| 上游最近代码提交 | 2026-07-22（首个公开提交；项目较新，采用前应重点核验变更与 Issue） |
+
+**定位**：专门为 Hermes Agent 组装的金融研究“运行层”，而不是独立的行情数据库、交易软件或通用量化库。它将 LLMQuant Data 的市场数据 MCP、LLMQuant/skills 的分析方法，以及 Hermes 的消息投递、持久记忆和 Cron 调度连起来，用于按需研究与定时信息观察。
+
+**包含的工作流**：上游提供 `morning-brief`（盘前晨报）、`earnings-watch`（财报/指引观察）、`13f-diff`（机构 13F 变动）、`portfolio-pulse`（持仓周度复盘）和 `polymarket-watch`（预测市场异动）；并可配合其 18 个分析 Skills 做股票、宏观与预测市场的按需分析。数据工具层声明覆盖价格、公司新闻、文件披露、13F 和宏观等，但具体字段、国家/市场覆盖、时间范围、延迟和额度均以 LLMQuant Data 当前文档与账户套餐为准。
+
+**接入方式**：优先使用 LLMQuant Dashboard 生成的、每个账户独立的 **Remote MCP URL**，在 Hermes 的 `mcp_servers` 中配置后做一次低成本/零额度认证测试；上游也提供本地 stdio MCP 备选方案。随后按需安装其 `skills/`，先手工运行一个 playbook，确认数据来源、时区、费用和消息格式后，再决定是否创建 Cron。不要把上游 `SOUL.md` 或 `AGENTS.md` 模板未经审阅地覆盖到现有 Hermes 全局身份或项目规则中；应合并与审计其中的权限、提示词和投递配置。
+
+**适合**：已在使用 Hermes、希望把低频投研问答、晨报、财报提醒和持仓信息整理成可重复、可投递的研究工作流的个人或小团队。它和 TA-Lib 的关系是互补：LLMQuant Hermes 解决数据检索、研究编排与通知，TA-Lib 提供本地技术指标计算；两者都不构成可直接自动交易的决策系统。
+
+**安全、成本与合规边界**：
+
+1. Remote MCP URL 通常等同于访问凭据；只能放入 Secret/受限配置，不能提交到 Git、报告、聊天记录或截图。为每位使用者和每个环境使用独立令牌，并可随时撤销。
+2. MCP 返回的市场数据、新闻摘要和持仓资料可能受供应商服务条款、地域限制、版权/再分发限制与额度约束；使用前核对 LLMQuant Data 和每个原始数据源的许可，不把“能查询”视为“可任意留存或对外分发”。
+3. 定时任务会产生模型推理费用和 LLMQuant 数据额度消耗。先做手动 smoke test，设置预算、频率、失败告警和最小 watchlist，再启用晨报/观察任务；Cron 的时区和实际投递目标必须实测确认。
+4. 持仓、关注列表和通知渠道属于敏感金融信息。输出应最小化、投递到受控私聊/群组，避免在公开频道展示完整账户、交易计划、API URL 或 webhook。
+5. 该项目首个公开提交于 2026-07，维护历史很短。锁定版本、审阅 `SETUP.md`、Skills、MCP 配置和第三方依赖后再投入长期使用；不要让模型报告直接触发下单、调仓或其他资金操作，研究与执行必须由独立风控和人工审批隔离。
+
 ## 研究终端与投研工作流
 
 ### Fincept Terminal — 原生金融研究终端
