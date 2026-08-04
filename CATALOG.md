@@ -1,10 +1,10 @@
 # 目录
 
-> 数据快照：2026-07-27。项目活跃度、星标、版本、许可证和 API 兼容性会变化，请在采用前核验上游文档与条款。
+> 数据快照：2026-08-05。项目活跃度、星标、版本、许可证和 API 兼容性会变化，请在采用前核验上游文档与条款。
 
 | 分类 | 条目 | 适用场景 |
 | --- | --- | --- |
-| [金融 AI](catalog/financial-ai.md) | Kronos | K线/量价序列预测、金融时间序列研究 |
+| [金融 AI](catalog/financial-ai.md) | Kronos、FinRL | K线/量价序列预测、金融时间序列研究、金融强化学习实验与回测原型 |
 | [量化研究与市场数据](catalog/quant-data.md) | A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner | A 股数据、MCP 行情、技术指标、研究工程、回测与交易框架 |
 | [Agent 浏览器](catalog/agent-browser.md) | ego lite | Agent 浏览器自动化、复用本机登录态 |
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | CloakBrowser、Page Agent、scroll-world | 自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill |
@@ -16,6 +16,7 @@
 ## 快速选择
 
 - 想做市场 OHLCV/K线预测或微调金融序列模型：看 **Kronos**。
+- 想以 Gym 风格环境比较 A2C、DDPG、PPO、SAC、TD3 等 DRL 策略，或复现教学/研究型 train-test-trade 流程：看 **FinRL**。它是研究框架；新建生产化交易系统应进一步评估上游推荐的 **FinRL-X / FinRL-Trading**，并独立完成风控、合规和实盘验证。
 - 想快速给 Agent 增加 A/港/美股查询：看 **stock-api**；想进行多源 A 股研究：看 **A-Stock Data**。
 - 想在 Python/Pandas/Polars 管线中计算 RSI、MACD、布林带、ADX 或 K 线形态：看 **TA-Lib Python**；它只做指标计算，仍需自备合规行情、完成验证和风控。
 - 想搭建可维护的 AI 量化研究仓库：看 **QuantSpace**；想做 Python 回测或 paper/live broker 策略：看 **Lumibot**。
