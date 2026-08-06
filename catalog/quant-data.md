@@ -353,3 +353,62 @@ lean optimize       # 注意过拟合与样本外验证
 **适合**：仅在你有合法 WorldQuant 账户、理解平台规则，并希望研究 alpha 想法管理/筛选流水线时评估。
 
 **关键风险**：它需要平台凭据并涉及自动提交；不可把账号密码存入 `credential.txt` 后提交到仓库或分享。自动生成/提交可能违反平台规则、造成账户风险或浪费配额。先在隔离环境阅读代码与 `credential.example.txt`，使用最小权限账户，关闭自动提交，保留人工审核与速率限制。上游最后代码推送为 2026-02，采用前要检查依赖、平台 API 和安全更新。
+
+### Vibe-Trading — AI 原生金融研究、回测与受控交易工作台
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [HKUDS/Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) |
+| 官网/文档 | [vibetrading.wiki](https://vibetrading.wiki/) · [Docs](https://vibetrading.wiki/docs/) |
+| PyPI | [`vibe-trading-ai`](https://pypi.org/project/vibe-trading-ai/) |
+| 许可证 | MIT（仓库 `LICENSE`；第三方数据、经纪商 API、模型和服务条款另计） |
+| 技术形态 | Python 3.11–3.13、FastAPI、React 19、MCP、CLI、Docker、Swarm 多 Agent |
+| 收录快照 | 2026-08-07：30,033 stars、4,837 forks；未归档；最新代码提交 2026-08-06（[`8452a84`](https://github.com/HKUDS/Vibe-Trading/commit/8452a8448f947dfa1d5fe55b582f1944d4d9b696)） |
+| 当前包版本 | `vibe-trading-ai` 0.1.13（源码 `pyproject.toml`；上游最新 GitHub Release 为 [v0.1.12](https://github.com/HKUDS/Vibe-Trading/releases/tag/v0.1.12)，发布于 2026-07-22） |
+
+**定位**：Vibe-Trading 是一个面向个人和研究团队的 AI 原生金融研究工作台，把自然语言问题连接到市场数据加载器、策略生成、跨市场回测、报告/导出、持久研究记忆、Swarm 多 Agent 和 MCP/API 工具。它覆盖研究、模拟、回测，并可在用户明确授权、设置边界且使用受控连接器时接入部分 paper/live broker；它不托管资金。
+
+**核心能力**：
+
+- **自然语言研究与 CLI/Web**：`vibe-trading run -p "..."` 将研究目标交给 Agent；`vibe-trading serve --port 8899` 启动 FastAPI/Web UI。可管理研究会话、持久记忆、上传文档、交易日志和研究目标。
+- **数据与回测**：覆盖 A 股、港股、美股、印度、韩国、加密、期货、外汇、期权等市场；使用多数据源 fallback、PIT 基本面、技术指标、Alpha Zoo、风险分析、组合/跨市场回测、Walk-Forward/Monte Carlo 等研究能力。具体数据的实时性、字段、额度和许可必须按供应商逐项核验。
+- **多 Agent 与 MCP**：提供投资/量化/加密/风险等团队型 Swarm 预设；MCP/API 使研究、数据、回测、报告和连接器可由外部 Agent 调用。外部 MCP 还扩大了供应链和提示词注入边界，应逐个审查和最小化授权。
+- **交易连接器**：README 描述 IBKR、Robinhood、Alpaca、Binance、OKX、Futu、Tiger、Longbridge、MetaTrader 5 等连接器；部分仅只读或 paper，部分支持在 mandate、额度、风控闸门和审计账本约束下的下单。不能把“支持连接器”理解成适用于所有地区/账户，也不能跳过 broker 条款和人工审批。
+- **审计与安全边界**：上游持续加入 hash manifest、hash-chained audit ledger、fail-closed 工具参数、API Key/路径/上传边界和 paper/live 结构性隔离。采用时仍应阅读当前 `SECURITY.md`、Docker 配置和连接器实现，不能仅依赖 README 的安全声明。
+
+**接入方式**：
+
+```bash
+# 隔离 Python 3.11–3.13 环境
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -U vibe-trading-ai
+vibe-trading init
+vibe-trading run -p "Backtest a BTC-USDT 20/50 moving-average strategy for 2024 and summarize return and drawdown"
+
+# 本地 Web/API
+vibe-trading serve --port 8899
+
+# Docker（以当前上游 Compose、锁文件和 Secret 说明为准）
+git clone https://github.com/HKUDS/Vibe-Trading.git
+cd Vibe-Trading
+docker compose up --build
+```
+
+若作为 MCP 使用，应先在隔离环境完成 `initialize → tools/list → tools/call` 的 smoke test；Web/API 暴露到非 localhost 时设置强 `API_AUTH_KEY` 和明确可信来源。连接器先使用 read-only/paper profile，确认账户、标的、币种、时区、费用、滑点和成交语义后，才评估受控下单。
+
+**适合什么**：
+
+- 把自然语言投研、行情/基本面查询、策略实验、回测、风险报告和研究记忆放在一个可审计工作流中。
+- 需要跨 A/H/美股、加密、期货或外汇比较研究，并希望以 CLI、Web、MCP 或多 Agent 方式复用。
+- 想让 Hermes/Codex 等 Agent 调用受控的研究 API/MCP；但应将 Vibe-Trading 作为独立边界，不把其 Secret、工作区或交易权限直接并入全局 Agent。
+
+**安全、数据与交易边界**：
+
+1. 这是研究/回测/交易连接基础设施，不构成投资建议；AI 报告、策略评分、回测收益和作者展示结果都不保证未来表现。强化学习/LLM/Swarm 还会引入过拟合、数据泄漏、提示词注入和工具误用风险。
+2. 任何真实账户先使用 read-only 或 paper；下单必须由确定性 pre-trade gate、标的/金额/敞口/杠杆/日损失上限、kill switch、审计日志和人工审批共同约束。不要让模型输出直接变成订单。
+3. 行情、财报、新闻和预测市场数据的许可、再分发、延迟、限流和商业使用权不由 MIT 代码许可证授予；对 Tushare、Yahoo、交易所、券商及其他供应商逐项核对条款。
+4. 所有 Provider Key、数据 Token、Broker Secret、`API_AUTH_KEY` 和 MCP URL 都放在 Secret 管理或受限 `.env` 中，不提交 Git，不出现在报告、截图、日志和 Feishu 公共消息中。
+5. 远程部署必须设置强认证、可信 CORS/来源、HTTPS/反向代理、最小挂载目录和备份；Docker 更新前确认数据落在命名卷/独立持久目录，避免 `down -v` 意外删除研究记录、会话、技能或连接器配置。
+6. 上游迭代很快，README 新闻可能领先于 Release；应固定 Git commit/PyPI 版本、审阅 `requirements-lock.txt`、`SECURITY.md`、`Dockerfile`、MCP 工具和连接器代码，并在升级后重新跑回测/MCP/API smoke tests。
+
