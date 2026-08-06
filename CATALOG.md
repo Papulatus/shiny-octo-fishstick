@@ -5,7 +5,7 @@
 | 分类 | 条目 | 适用场景 |
 | --- | --- | --- |
 | [金融 AI](catalog/financial-ai.md) | Kronos、FinRL | K线/量价序列预测、金融时间序列研究、金融强化学习实验与回测原型 |
-| [量化研究与市场数据](catalog/quant-data.md) | A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner | A 股数据、MCP 行情、技术指标、研究工程、回测与交易框架 |
+| [量化研究与市场数据](catalog/quant-data.md) | A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、Vibe-Trading | A 股数据、MCP 行情、技术指标、AI 投研、研究工程、回测与受控交易连接器 |
 | [Agent 浏览器](catalog/agent-browser.md) | ego lite | Agent 浏览器自动化、复用本机登录态 |
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | CloakBrowser、Page Agent、scroll-world | 自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill |
 | [网页采集](catalog/web-scraping.md) | Scrapling | 动态站点、反爬场景、自适应选择器、规模化采集 |
@@ -19,7 +19,7 @@
 - 想以 Gym 风格环境比较 A2C、DDPG、PPO、SAC、TD3 等 DRL 策略，或复现教学/研究型 train-test-trade 流程：看 **FinRL**。它是研究框架；新建生产化交易系统应进一步评估上游推荐的 **FinRL-X / FinRL-Trading**，并独立完成风控、合规和实盘验证。
 - 想快速给 Agent 增加 A/港/美股查询：看 **stock-api**；想进行多源 A 股研究：看 **A-Stock Data**。
 - 想在 Python/Pandas/Polars 管线中计算 RSI、MACD、布林带、ADX 或 K 线形态：看 **TA-Lib Python**；它只做指标计算，仍需自备合规行情、完成验证和风控。
-- 想搭建可维护的 AI 量化研究仓库：看 **QuantSpace**；想做 Python 回测或 paper/live broker 策略：看 **Lumibot**。
+- 想搭建可维护的 AI 量化研究仓库：看 **QuantSpace**；想把自然语言投研、跨市场回测、MCP/Swarm 和连接器放进一个研究工作台：看 **Vibe-Trading**；想做 Python 回测或 paper/live broker 策略：看 **Lumibot**。
 - 已部署 Hermes，想将市场数据查询、晨报、财报/13F/持仓观察做成可控的 MCP + 定时工作流：看 **LLMQuant Hermes**；它需要独立的 LLMQuant Data 凭据、预算控制与人工风控。
 - 想让 Codex、Claude Code 等 Agent 在不抢占日常标签页的前提下完成浏览器任务：看 **ego lite**。
 - 想把自然语言 GUI 助手嵌入自己的网站：看 **Page Agent**。有明确授权的自动化/检测测试需要时再评估 **CloakBrowser**。
