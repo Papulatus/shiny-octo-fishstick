@@ -11,7 +11,7 @@
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | CloakBrowser、Page Agent、scroll-world | 自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill |
 | [网页采集](catalog/web-scraping.md) | Scrapling | 动态站点、反爬场景、自适应选择器、规模化采集 |
 | [视觉 AI、CV 与办公](catalog/vision-office.md) | Qwen 多角度 3D Camera、Supervision、Larkboat | 图像多视角、检测/分割后处理、文档/表格/PPT 办公 |
-| [设计资源](catalog/design-resources.md) | Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy | 产品界面、原型、前端实现和 Agent 生成 UI 的素材参考 |
+| [设计资源](catalog/design-resources.md) | Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills | 产品界面、原型、前端实现、UI 动效和 Agent 设计决策参考 |
 | [资源目录与邮箱](catalog/resources-email.md) | FMHY、Public APIs、邮箱助手 | 资源发现、API 候选、邮箱服务导航 |
 
 ## 快速选择
@@ -27,5 +27,7 @@
 - 想把自然语言 GUI 助手嵌入自己的网站：看 **Page Agent**。有明确授权的自动化/检测测试需要时再评估 **CloakBrowser**。
 - 想写 Python 采集脚本，且目标站点可能改版或有反自动化限制：看 **Scrapling**。
 - 想统一产品图标风格：通常先看 **Lucide** 或 **Tabler**；需要字重变化看 **Phosphor**；需要紧凑栅格看 **Radix Icons**；需要现成 CSS/Tailwind 灵感看 **Uiverse Galaxy**。
+- 想让 Agent 做更高质量的 UI 动效决策、审查或原型变体：看 **Emil Kowalski Skills**；按任务选择 `animate`、`review-animations`、`improve-animations` 或 `prototype`，并在真实设备与 reduced-motion 场景验收。
+
 - 想做模型无关的 CV 后处理、标注、跟踪和区域计数：看 **Supervision**。
 - 想发现公共 API、免费资源或邮箱服务：看 **Public APIs / FMHY / 邮箱助手**，但所有外链都必须单独核验。
