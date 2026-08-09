@@ -16,7 +16,7 @@
 | [量化研究与市场数据](catalog/quant-data.md) | A 股数据、行情 MCP、研究工程、回测/交易框架 |
 | [MCP、API 与 Agent 工具桥接](catalog/mcp-api-tools.md) | 将 MCP、OpenAPI 与 GraphQL 安全地接入 CLI/Agent |
 | [Agent 浏览器](catalog/agent-browser.md) | 可保留登录态的人机协作浏览器 |
-| [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | 网页内 Copilot、浏览器自动化运行时、沉浸式品牌页 Skill |
+| [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | 网页内 Copilot、仓库/网站反向 Prompt、浏览器自动化运行时、沉浸式品牌页 Skill |
 | [网页采集](catalog/web-scraping.md) | 自适应解析、反爬与爬虫框架 |
 | [视觉 AI、CV 与办公](catalog/vision-office.md) | 多视角图像、CV 工具箱、文档/表格/PPT 自动化 |
 | [设计资源](catalog/design-resources.md) | 图标库、UI 组件与界面灵感/素材 |
@@ -34,7 +34,7 @@
 ## 当前重点收录
 
 - **金融与量化**：Kronos、A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner。
-- **Agent 与网页**：ego lite、CloakBrowser、Page Agent、scroll-world、Scrapling。
+- **Agent 与网页**：ego lite、GitReverse、CloakBrowser、Page Agent、scroll-world、Scrapling。
 - **MCP 与 API 桥接**：mcp2cli。
 - **视觉、设计与办公**：Qwen Image Multiple Angles 3D Camera、Supervision、Larkboat、Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills。
 - **资源发现**：FMHY、Public APIs、邮箱助手。
