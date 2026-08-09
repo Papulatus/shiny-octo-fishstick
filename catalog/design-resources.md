@@ -108,3 +108,73 @@ Keep icons decorative unless an accessible label is provided.
 Match the existing spacing, radius, color tokens, and dark-mode behavior.
 Use Uiverse only as inspiration; do not copy unreviewed component code verbatim.
 ```
+
+### Emil Kowalski Skills — 面向设计师与工程师的 UI 动效与设计工程 Skill 集
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [emilkowalski/skills](https://github.com/emilkowalski/skills) |
+| 作者/主页 | [Emil Kowalski](https://emilkowal.ski/) · [Skills 介绍](https://emilkowal.ski/skill) |
+| Skill 安装入口 | [skills.sh](https://skills.sh/emilkowalski/skills) · `npx skills@latest add emilkowalski/skills` |
+| 许可证 | MIT（仓库 `LICENSE`；其中引用的设计理念、Apple/平台资料和第三方 UI 库仍需分别遵守各自条款） |
+| 技术形态 | Markdown/SKILL.md；面向 Claude Code、Cursor、Codex 等 Coding Agent 的设计与动效指导 |
+| 收录快照 | 2026-08-09：27,322 stars、1,497 forks；未归档；最近提交 2026-08-05（新增 `animate` Skill） |
+
+### 是什么
+
+这是 Emil Kowalski 为设计师和工程师整理的一组前端设计工程 Skills。它把 UI 动效、交互细节和设计决策中的经验固化为 Agent 可读取的操作规则，目标是让 Coding Agent 不只“把组件做出来”，还会考虑动效是否必要、动效目的、属性选择、曲线/时长、可中断性、空间来源、性能和 reduced motion。
+
+它不是组件库、CSS 代码片段集合或视觉素材库，也不会替代真实设备测试和设计评审。更准确地说，它是一个**设计判断与实现审查层**，可以与现有 React/Vue/Svelte 组件库、CSS 体系、Framer Motion/WAAPI 等实现工具配合使用。
+
+### 包含的 Skills
+
+- **`emil-design-eng`**：总的设计工程理念，覆盖 UI polish、组件反馈、Popover/Tooltip/Toast、动效属性、弹簧、手势、性能、无障碍和审查清单。
+- **`animate`**：从零构建动效，依次判断“该不该动”、动效目的、实现工具、属性、曲线/时长、打断与退出方式、reduced-motion 和 hover 条件。
+- **`review-animations`**：以较高标准审查已有动效；会重点发现 `transition: all`、`scale(0)`、交互使用 `ease-in`、布局属性动画、过长时长、错误 transform-origin、缺少 reduced-motion 等问题。
+- **`improve-animations` / `find-animation-opportunities`**：对整个代码库做只读动效审计、发现适合动效的地方，并输出按优先级排序的实施计划。
+- **`apple-design`**：将 Apple 的反馈、直接操作、手势跟手、弹簧、材料层次、排版和可访问性原则转译为 Web UI 指导。
+- **`animation-vocabulary`**：把“那个弹出来的效果”等模糊描述转换成更精确的动效术语，方便需求和 Agent prompt 沟通。
+- **`pick-ui-library`**：从一套有观点的库清单中选择 Toast、Popover、拖拽、虚拟列表、状态管理、动效等依赖；仅在明确调用时触发。
+- **`prototype`**：制作多个真正不同的 UI 变体，通过交互式 picker 进行比较；只在明确调用时触发，不会自动进入生产代码。
+
+### 适合什么
+
+- 让 Codex、Claude Code 或 Cursor 在实现 UI 前先做动效/交互决策，而不是默认给所有元素加动画。
+- 审查已有 Web UI 的动效质量，统一曲线、时长、transform-origin、进入/退出路径与中断行为。
+- 改造 Toast、Popover、Tooltip、Dropdown、Sheet、Modal、Tab、列表进入和拖拽反馈等高频组件。
+- 为设计系统补充 `prefers-reduced-motion`、触摸设备 hover、键盘操作、焦点反馈和真实设备验收规则。
+- 在项目早期通过 `prototype` 做多方向原型比较；选定后再将实现提升到生产组件。
+
+### 推荐接入方式
+
+```bash
+# 先审查安装内容，再按需安装整个仓库的 Skills
+npx skills@latest add emilkowalski/skills
+
+# 或从上游直接阅读某个 SKILL.md，选择性纳入 Agent 工作流
+```
+
+建议按任务选择，而不是默认把全部规则注入所有项目：
+
+1. 新增动效：先使用 `animate`，确定目的、工具、属性、曲线、时长和打断方式。
+2. 检查已有动效：使用 `review-animations`，先看 Findings 与 Block/Approve 判断，再决定是否修改。
+3. 全库治理：使用 `improve-animations` 或 `find-animation-opportunities`；它们是只读建议，不会替你改源码。
+4. 原型探索：使用 `prototype` 建立隔离路由或独立 HTML picker，不要让实验代码直接污染生产组件。
+5. 最终验收：在 DevTools 中慢放/逐帧检查，测试真实触摸设备、键盘焦点、暗色模式、长文本、低性能设备和 `prefers-reduced-motion: reduce`。
+
+### 设计与工程边界
+
+- **动效不是越多越好**：应服务反馈、空间一致性、状态说明、避免突兀变化或少量首次体验上的 delight；键盘快捷键和高频操作不应被多余动画拖慢。
+- **性能优先**：默认优先 `transform` 与 `opacity`，谨慎使用 `clip-path`；避免动画化 width/height/margin/padding/top/left 等会触发布局的属性。不能机械套用规则，Accordion 等场景仍需根据实际体验评估。
+- **真实交互必须可中断**：手势/拖拽应从当前 presentation value 继续，保持速度交接；不要在用户反向操作时从逻辑目标值跳回。
+- **可访问性必须保留**：实现 movement 时提供 `prefers-reduced-motion` 降级；不要把 hover-only 反馈当作触摸或键盘用户唯一入口。
+- **依赖建议不是强制规范**：`pick-ui-library` 的库清单体现作者偏好，不等同于项目必须安装的依赖。先检查现有设计系统、bundle 体积、许可证、维护状态和无障碍能力。
+- **Apple Design 是转译参考**：它提供 Web 交互启发，不是 Apple 官方 Web 组件库、品牌授权或平台合规证明。
+
+### 安全与维护注意
+
+1. 安装前检查 `SKILL.md` 和安装器/CLI 的实际写入路径、依赖与更新行为；Skill 本质上是会影响 Agent 决策的指令内容，不能盲目从任意 fork 安装。
+2. 将其按项目/平台局部启用，避免全局设计规则覆盖既有品牌规范、design token 或业务无障碍标准。
+3. 任何“视觉更好”的建议都需要真实浏览器、真实设备和用户场景验证；Agent 无法仅凭源码保证动效的节奏、触感、性能和可用性。
+4. 引用的第三方库、WWDC/Apple 资料、字体、图标与视觉资产须回到各自官方许可核验；MIT 只覆盖该仓库自身可授权内容。
+
