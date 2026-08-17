@@ -8,7 +8,7 @@
 | [量化研究与市场数据](catalog/quant-data.md) | A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、Vibe-Trading | A 股数据、MCP 行情、技术指标、AI 投研、研究工程、回测与受控交易连接器 |
 | [MCP、API 与 Agent 工具桥接](catalog/mcp-api-tools.md) | mcp2cli | 将受信任的 MCP、OpenAPI、GraphQL 发现并受限地转为 CLI/Agent 工具 |
 | [Agent 浏览器](catalog/agent-browser.md) | ego lite | Agent 浏览器自动化、复用本机登录态 |
-| [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | GitReverse、CloakBrowser、Page Agent、scroll-world | 仓库/网站反向 Prompt、自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill |
+| [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | Agent QA、GitReverse、CloakBrowser、Page Agent、scroll-world | Agent 驱动 QA、仓库/网站反向 Prompt、自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill |
 | [网页采集](catalog/web-scraping.md) | Scrapling | 动态站点、反爬场景、自适应选择器、规模化采集 |
 | [视觉 AI、CV 与办公](catalog/vision-office.md) | Qwen 多角度 3D Camera、Supervision、Larkboat | 图像多视角、检测/分割后处理、文档/表格/PPT 办公 |
 | [设计资源](catalog/design-resources.md) | Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills | 产品界面、原型、前端实现、UI 动效和 Agent 设计决策参考 |
