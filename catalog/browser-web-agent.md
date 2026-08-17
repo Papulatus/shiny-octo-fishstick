@@ -2,6 +2,40 @@
 
 本页区分三类能力：**网页内 Copilot**（嵌入自己产品）、**Agent 浏览器运行环境**（代替/增强 Playwright）和**设计/内容生成 Skill**。它们的权限边界完全不同：可操控真实登录态或规避检测的工具，必须采用最小权限、人工确认和审计日志。
 
+## Agent QA — 给 Coding Agent 的浏览器与移动端 QA 工作流
+
+| 字段 | 信息 |
+| --- | --- |
+| 上游 | [vostride/agent-qa](https://github.com/vostride/agent-qa) |
+| 文档 | [vostride.com/docs/agent-qa](https://vostride.com/docs/agent-qa) |
+| 许可证 | FSL-1.1-ALv2（source-available；每个版本公开可用两年后可改用 Apache-2.0） |
+| 技术形态 | Node.js 24+ CLI；MCP stdio；外接模型、浏览器与移动设备 provider |
+| 收录快照 | 2026-08-17：npm `0.1.21`、852 stars；上游最近推送 2026-08-03 |
+
+### 是什么
+
+Agent QA 是面向 Coding Agent 和开发团队的 QA harness。测试以自然语言 YAML 定义网页或移动端动作与断言，可从 dashboard、CLI 或 MCP 入口调用。上游还提供执行记忆、动作缓存、自愈式重试和隔离 hook 等能力；这些机制用于减少 UI 变化造成的脆弱失败，但不能替代对最终证据的人工复核。
+
+### 接入与输出边界
+
+- 初始化项目使用 `npx agent-qa init`；CLI 可用 `npx agent-qa run <test.yaml>` 运行定义。
+- MCP stdio 入口是 `npx agent-qa mcp`，适合由支持 MCP 的 Coding Agent 发现和调用 QA 工具。
+- 网页执行需要安装相应浏览器运行支持；移动端项目需要安装移动驱动。模型、浏览器和设备 provider 需单独配置，其账户、额度或运行费用不包含在 Agent QA 中。
+- Node、Bun、Python 或 Bash hook 运行在 Docker 容器中；使用 hook 前必须另行安装并审查 Docker 权限。
+
+### 适合什么
+
+- 在 Agent 修改网页或移动应用后，用版本化测试定义做关键路径回归。
+- 让 Codex、Claude Code 等支持 MCP 的客户端触发 QA，再由人检查失败、日志与运行证据。
+- 把测试、配置、hook、memory 与 suite 逻辑保存在仓库中，随代码变更一起评审。
+
+### 风险与采用建议
+
+1. 当前许可证是 FSL-1.1-ALv2，不是 OSI 开源许可证；竞争性产品/服务用途受到限制。采用、修改或再分发前应阅读随版本提供的 `LICENSE.md`，并按该版本公开满两年的日期判断 Apache-2.0 future license 是否已经生效。
+2. 先在专用测试环境和低权限账号运行。付款、发布、删除、发信或生产数据写入等动作必须增加人工确认，并限制 provider 凭据权限。
+3. 自动修复或记忆命中不等于测试正确；评审测试定义、实际 UI 状态、失败路径和证据后再接受结果。
+4. 固定 npm 版本并复核 Node、浏览器、移动驱动、Docker 与 provider 的版本兼容性。不同 MCP 客户端和 provider 组合仍需在目标环境实测。
+
 ## CloakBrowser — 源码级指纹修补的 Chromium 自动化运行时
 
 | 字段 | 信息 |
@@ -176,4 +210,3 @@ GitReverse 是一个面向开发者和 Coding Agent 的 Web 应用：用户输�
 - **凭据与支付面**：GitHub Token、LLM Key、Supabase 凭据、Stripe Secret、Firecrawl/context.dev Key 都是高敏感配置；Stripe 路由和用户历史尤其需要权限隔离、Webhook 验签、额度和审计。
 - **供应链与许可证**：仓库未提供 `LICENSE`，源码是否允许复制、修改、部署和再分发不能从“公开 GitHub”推断。安装依赖和部署前应锁定 commit、审查 lockfile 与 server routes。
 - **公共数据隐私**：公开仓库 URL、生成 Prompt、embedding、浏览统计和用户历史可能形成可识别的研究轨迹；上线 `/library`、缓存和分享页时要明确保留期限、删除路径和访问控制。
-
