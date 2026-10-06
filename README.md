@@ -39,6 +39,11 @@
 - **视觉、设计与办公**：Qwen Image Multiple Angles 3D Camera、Supervision、Larkboat、[中国专利.skill](catalog/vision-office.md#patent-disclosure-skill中国专利skill--专利交底申请底稿与私有知识库技能套件)、Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills、[Oil UI](catalog/design-resources.md)。
 - **资源发现**：FMHY、Public APIs、邮箱助手。
 
+
+- **Agent 训练**：[Agent Lightning](catalog/mcp-api-tools.md)，真实 harness 下的 RL 研究基础设施。
+- **视觉 GUI Agent**：[UI-TARS](catalog/browser-web-agent.md)，模型与解析工具，不等于桌面客户端。
+- **吉祥物与视频制作**：[IP as Logo](catalog/design-resources.md)、[AI剪口播](catalog/vision-office.md)。
+
 ---
 
 维护方式：由线上目录维护者持续研究、分类、补充中文说明、记录上游链接与风险提示。外部代码、模型与服务的实际使用以各自许可证、模型卡与服务条款为准。
