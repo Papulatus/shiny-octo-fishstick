@@ -177,3 +177,27 @@ GitReverse 是一个面向开发者和 Coding Agent 的 Web 应用：用户输�
 - **供应链与许可证**：仓库未提供 `LICENSE`，源码是否允许复制、修改、部署和再分发不能从“公开 GitHub”推断。安装依赖和部署前应锁定 commit、审查 lockfile 与 server routes。
 - **公共数据隐私**：公开仓库 URL、生成 Prompt、embedding、浏览统计和用户历史可能形成可识别的研究轨迹；上线 `/library`、缓存和分享页时要明确保留期限、删除路径和访问控制。
 
+## UI-TARS — 视觉驱动 GUI Agent 模型与动作解析研究
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [bytedance/ui-tars](https://github.com/bytedance/UI-TARS) |
+| 文档/入口 | [项目文档](https://seed-tars.com/) |
+| 许可证 | Apache-2.0；已检查根 LICENSE，第三方模型、数据与服务另行核验 |
+| 技术形态 | 视觉语言模型研究、Python 动作解析与桌面/移动端 prompt；权重另行下载 |
+| 收录快照 | 2026-10-07 CST；11,562 stars、884 forks；未归档 |
+| 维护快照 | 无 GitHub Release；默认分支提交 `582f3a7ea5d285ee8ed9e2e84048d1ab01453c49`，2025-09-05；最近推送 2026-01-27 |
+
+### 是什么、核心能力与适用场景
+
+这是 ByteDance 的 GUI Agent 模型与推理参考仓库，不是 UI-TARS-desktop 应用本身。README 链接独立桌面项目和 Midscene 网页自动化，并提供 UI-TARS-1.5-7B 权重入口；UI-TARS-2 的研究公告不能直接证明本仓库有全部对应权重和部署实现。
+
+根据屏幕截图生成动作描述，提供 computer/mobile/grounding 模板及动作解析、坐标转换、PyAutoGUI 代码生成。适合授权 GUI 自动化研究、grounding 评测与隔离设备上的交互实验。上游基准分数、游戏表现与模型规模有对应条件，不能视为实际机器成功率或安全保证。
+
+### 推荐接入方式
+
+先阅读 README_deploy.md 和 README_coordinates.md，固定模型/代码并核验权重模型卡、算力和接口需求；`pip install ui-tars` 提供解析工具，不会单独完成模型部署或执行授权。坐标缩放、截图分辨率、DPI 与模型类型必须一致。在虚拟机或测试账号中先观察解析动作再执行，保留截图与结果证据。需要桌面客户端时评估独立 UI-TARS-desktop，不混淆两者安装与许可。
+
+### 安全、隐私、供应链与能力边界
+
+GUI 执行器可能点击支付、发送消息、删除文件或改设置；使用最小账号权限、动作白名单、敏感操作人工批准、审计和紧急停止。模型输出与生成的 Python 不能未经校验直接任意执行。截图可能含凭据、聊天、企业信息，远端推理需审查数据政策。README 提及 CAPTCHA 能力不构成绕过访问控制的授权；不要用于未授权登录或反自动化规避。代码 Apache-2.0，权重、数据、桌面客户端与第三方站点条款分别确认；未部署或实测。
