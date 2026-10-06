@@ -11,7 +11,7 @@
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | GitReverse、CloakBrowser、Page Agent、scroll-world | 仓库/网站反向 Prompt、自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill |
 | [网页采集](catalog/web-scraping.md) | Scrapling | 动态站点、反爬场景、自适应选择器、规模化采集 |
 | [视觉 AI、CV 与办公](catalog/vision-office.md) | Qwen 多角度 3D Camera、Supervision、Larkboat、patent-disclosure-skill | 图像多视角、检测/分割后处理、文档/表格/PPT 办公、专利技术文档 |
-| [设计资源](catalog/design-resources.md) | Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills | 产品界面、原型、前端实现、UI 动效和 Agent 设计决策参考 |
+| [设计资源](catalog/design-resources.md) | Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills、Oil UI | 产品界面、原型、前端实现、UI 动效和 Agent 设计决策参考 |
 | [资源目录与邮箱](catalog/resources-email.md) | FMHY、Public APIs、邮箱助手 | 资源发现、API 候选、邮箱服务导航 |
 
 ## 快速选择
@@ -34,3 +34,5 @@
 - 想发现公共 API、免费资源或邮箱服务：看 **Public APIs / FMHY / 邮箱助手**，但所有外链都必须单独核验。
 
 - 想将研发材料整理为中国专利交底/申请底稿，或建立私有专利解读与地图知识库：看 [**patent-disclosure-skill（中国专利.skill）**](catalog/vision-office.md)。先审核技能与数据外发边界；工具不能替代专业代理审核、全面查新或官方申请，未公开技术须授权和脱敏。
+
+- 想围绕产品探索差异明显的视觉方向、并排比较原型、截图还原并以真实画面迭代：看 [**Oil UI**](catalog/design-resources.md)。它是设计 Skill，不是组件库；区分 MIT 开源版与付费 Pro，审查更新检查、素材外发和宿主权限，不替代业务正确性与无障碍测试。
