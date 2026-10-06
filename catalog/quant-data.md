@@ -412,3 +412,58 @@ docker compose up --build
 5. 远程部署必须设置强认证、可信 CORS/来源、HTTPS/反向代理、最小挂载目录和备份；Docker 更新前确认数据落在命名卷/独立持久目录，避免 `down -v` 意外删除研究记录、会话、技能或连接器配置。
 6. 上游迭代很快，README 新闻可能领先于 Release；应固定 Git commit/PyPI 版本、审阅 `requirements-lock.txt`、`SECURITY.md`、`Dockerfile`、MCP 工具和连接器代码，并在升级后重新跑回测/MCP/API smoke tests。
 
+## QuestDB — 面向行情、事件与遥测的高性能时序数据库
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [questdb/questdb](https://github.com/questdb/questdb) |
+| 官网与文档 | [questdb.com](https://questdb.com)、[官方文档](https://questdb.com/docs/)、[快速开始](https://questdb.com/docs/getting-started/quick-start/) |
+| 分类 | 量化研究与市场数据 / 时序存储、实时分析与数据基础设施 |
+| 许可证 | Apache-2.0；已核对 LICENSE.txt；第三方组件见 THIRD_PARTY_LICENSES.txt，Enterprise/托管服务另有条款 |
+| 技术形态 | Java 引擎及 C++/Rust 热路径，内存映射列式分区、WAL、SQL、Parquet；提供多语言客户端与 Web Console |
+| 收录快照 | 2026-10-07 CST；17,423 stars、1,660 forks；未归档 |
+| 维护快照 | 最新 GitHub Release 10.0.1，2026-08-24；master 提交 `6c63556431ae6513752e8c5943ab4409160f91d9`，2026-10-06 |
+
+### 是什么
+
+以时间戳为核心组织高吞吐写入和低延迟查询的数据库，适合 tick、成交、报价、订单簿、传感器和业务事件。它不是行情供应商、策略模型或交易执行系统；不会提供数据许可，也不会自动解决复权、交易日历、跨源主键与研究数据泄漏问题。PostgreSQL Wire 兼容便于接入现有客户端，但不代表完全等同 PostgreSQL 的 SQL、事务、扩展或 ORM 行为。
+
+### 核心能力
+
+- 按时间分区的列式存储、并发写入与查询、乱序事件处理和去重；WAL、去重配置与写入确认语义需要按版本和客户端验证，不将营销上的 exactly-once 自动扩展为全链路保证。
+- 时间序列 SQL：SAMPLE BY、LATEST ON、ASOF JOIN、WINDOW JOIN、HORIZON JOIN，可用于 OHLCV 聚合、最新状态和成交/报价时间对齐。
+- 物化视图聚合、原生数组；10.0 README 将 live views 标为 beta，采用前核验限制和升级兼容性。
+- QWP 二进制列式协议经 WebSocket 读写，支持 Arrow 查询结果；另提供 PostgreSQL Wire、InfluxDB Line Protocol 和 REST 兼容接口。各语言客户端的 QWP 支持程度不同，不能假定完全一致。
+- 原生存储与 Parquet 分区；开源版可显式转换，自动冷分区对象存储分层、复制/自动故障转移、RBAC/TLS/SSO/审计等 Enterprise 能力需独立核对商业版本。
+
+### 适合什么与选型边界
+
+适合持续采集的大规模行情、订单簿/成交分析、金融技术指标与遥测监控。若只是本机日线批量研究和文件分析，先评估现有 DuckDB/Parquet 是否已满足需求，不因高吞吐宣传就增加常驻服务。和通用 OLTP 数据库、分布式数仓比较时，用真实写入批次、乱序比例、symbol 基数、查询并发、数据保留期和磁盘预算测试。
+
+上游展示的千万行级吞吐来自指定硬件、协议和数据条件，并非本目录实测，不应直接用于容量承诺或交易时延保证。
+
+### 推荐接入方式
+
+先用官方固定版本镜像在隔离、回环环境评估（此命令为参考，本次未部署）：
+
+```bash
+docker run --name questdb-eval \
+  -p 127.0.0.1:9000:9000 -p 127.0.0.1:8812:8812 \
+  -v questdb-eval-data:/var/lib/questdb \
+  questdb/questdb:10.0.1
+```
+
+1. 9000 提供 Web Console、REST、HTTP 写入及 QWP；8812 为 PGWire。实际协议、认证与启用配置以所固定版本文档为准，不映射不需要的端口。
+2. 定义 designated timestamp、时区、symbol、时间分区和数据契约，再选择官方客户端/协议；测试乱序、更正、重复、schema 变化和故障重试。
+3. 用小样本对账 ASOF 时间方向、窗口边界、交易日与聚合结果；再开展持续压力、磁盘增长、重启恢复和备份恢复演练。
+4. 接入 Grafana、Pandas/Polars 或 BI 前核对版本与 SQL 支持。官方 [questdb/skills](https://github.com/questdb/skills) 和 Web Console MCP 是另外的 Agent 接入入口，不是本数据库仓库自带的无权限限制助手。
+
+### 安全、数据治理与运维边界
+
+- 不把默认控制台、REST 或 PGWire 直接暴露公网；验证认证，使用回环、私网、受控网关和 TLS。Enterprise 安全特性不能默认归属于开源部署，也不能仅凭配置名判断安全性。
+- Agent/MCP 从只读连接、表级范围和查询限额开始；DDL、删除分区、写入、导入及配置变更需人工审批和操作审计，避免自然语言直接生成破坏性 SQL。
+- 行情与交易数据的版权、交易所再分发条款、个人信息与企业保密要求独立适用；不要上传生产账户信息或密钥到公共 demo。
+- 固定版本、检查安全公告与 [SECURITY.md](https://github.com/questdb/questdb/blob/master/SECURITY.md)；升级前确认 WAL、格式、客户端兼容性及回滚可行性。备份遵循官方一致性方法，不能把运行时数据目录随意打包当成可靠快照。
+- 做磁盘/分区保留、WAL 积压、写入错误和查询并发监控，设置资源预算与恢复目标。开源单实例不等于已具备高可用、灾备或商业 SLA。
+- Apache-2.0 再分发需遵循许可证、声明及适用 NOTICE 要求；不自动授权 QuestDB 商标或第三方数据。此条目仅为选型与接入参考，未运行基准、部署或迁移现有 QuantDB。
+
