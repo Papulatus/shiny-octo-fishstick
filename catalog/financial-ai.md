@@ -10,8 +10,8 @@
 | 论文 | [arXiv:2508.02739](https://arxiv.org/abs/2508.02739) |
 | 许可证 | MIT |
 | 技术形态 | Python、decoder-only Transformer、OHLCV/K线 tokenizer |
-| 收录时星标 | 34.5k |
-| 上游最近推送 | 2026-04-13 |
+| 收录快照 | 2026-10-07 CST：40,076 stars、6,663 forks；未归档 |
+| 上游维护快照 | master 提交 `67b630e67f6a18c9e9be918d9b4337c960db1e9a`，2026-04-13；无 GitHub Release |
 
 ### 是什么
 
@@ -26,7 +26,7 @@ Kronos 是针对金融 K 线（OHLCV）序列预训练的开源基础模型家�
 
 ### 关键资产
 
-上游模型表中包含轻量到更大规模的权重，例如 `Kronos-mini`（4.1M）与 `Kronos-small`（24.7M），并提供 tokenizer 和 Hugging Face 权重。具体模型、上下文长度及输入格式以其 README 和模型卡为准。
+已核对上游 README：mini（4.1M、2048 上下文）、small（24.7M、512）、base（102.3M、512）有权重入口；large（499.2M）标为未开放，不推定可下载。提供预测、批量预测和微调示例；代码 MIT 已核对，权重以模型卡许可为准。
 
 ### 接入建议
 
