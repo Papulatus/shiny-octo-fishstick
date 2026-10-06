@@ -13,7 +13,7 @@
 | 类别 | 内容 |
 | --- | --- |
 | [金融 AI](catalog/financial-ai.md) | 市场时间序列、量化研究与金融基础模型 |
-| [量化研究与市场数据](catalog/quant-data.md) | A 股数据、行情 MCP、研究工程、回测/交易框架 |
+| [量化研究与市场数据](catalog/quant-data.md) | A 股数据、行情 MCP、研究工程、回测/交易框架与时序数据库 |
 | [MCP、API 与 Agent 工具桥接](catalog/mcp-api-tools.md) | 将 MCP、OpenAPI 与 GraphQL 安全地接入 CLI/Agent |
 | [Agent 浏览器](catalog/agent-browser.md) | 可保留登录态的人机协作浏览器 |
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | 网页内 Copilot、仓库/网站反向 Prompt、浏览器自动化运行时、沉浸式品牌页 Skill |
@@ -33,7 +33,7 @@
 
 ## 当前重点收录
 
-- **金融与量化**：Kronos、A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner。
+- **金融与量化**：Kronos、A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、[QuestDB](catalog/quant-data.md)。
 - **Agent 与网页**：ego lite、GitReverse、CloakBrowser、Page Agent、scroll-world、Scrapling。
 - **MCP 与 API 桥接**：mcp2cli。
 - **视觉、设计与办公**：Qwen Image Multiple Angles 3D Camera、Supervision、Larkboat、[中国专利.skill](catalog/vision-office.md#patent-disclosure-skill中国专利skill--专利交底申请底稿与私有知识库技能套件)、Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills、[Oil UI](catalog/design-resources.md)。
