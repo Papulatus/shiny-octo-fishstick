@@ -114,3 +114,29 @@ FRAS 分别描述 F（职责）、R（关联）、A（契约）与 S（高价值
 - 索引可能包含业务秘密，Git 提交前审查文件范围、敏感路径、条目与证据；凭据和业务数据不进入认知资产。依赖、签名、NOTICE、PATENTS、TRADEMARKS 分别审核，不据 README 推断专利授权状态。
 - 当前 RC 需验证升级/回滚、并发与恢复边界；绿色检查不替代语义抽查、功能测试或生产验收。本次仅收录，未安装、连接数据库或初始化用户项目。
 
+## Agent Lightning — 使用真实 Agent 执行环境的强化学习训练基础设施
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [microsoft/agent-lightning](https://github.com/microsoft/agent-lightning) |
+| 文档/入口 | [项目文档](https://microsoft.github.io/agent-lightning/stable/) |
+| 许可证 | MIT；已检查根 LICENSE，第三方模型、数据与服务另行核验 |
+| 技术形态 | Python 3.12+；Trainer（verl/vLLM）、API Gateway、Rollout Controller；本地或 Kubernetes Jobs |
+| 收录快照 | 2026-10-07 CST；18,570 stars、1,656 forks；未归档 |
+| 维护快照 | v1.0.2（2026-09-29）；默认分支提交 `d381995396274039f2bb1cbe5ff42ac8067f4e47`，2026-09-29；最近推送 2026-09-29 |
+
+### 是什么、核心能力与适用场景
+
+Agent Lightning v1.0 是针对 Agent 轨迹采集与策略训练的基础设施，不是日常聊天助手、知识库或仅靠提示词就能升级任意闭源模型的插件。v1.0 已整体重构，旧 v0.x 指南不能直接套用。
+
+核心组件分别负责训练更新、代理模型请求并采集训练数据，以及运行真实 Agent harness。可在本地或 Kubernetes 执行 rollout；示例涉及数学、搜索、沙箱与代码任务。README 的 SWE-bench 提升是指定模型、样本和评测条件下的上游结果，本库未复现，不代表任意任务效果。
+
+适合已有可训练模型、奖励定义、数据集及 GPU 预算的研究团队，将 Agent 的工具、上下文和环境纳入训练闭环。与 FinRL 的金融策略训练不同，它训练通用 Agent 行为。
+
+### 推荐接入方式
+
+先固定 v1.0.2，在隔离环境按官方安装文档准备 Python、CUDA 与 verl/vLLM；README 示例为 CUDA 13.0，并非所有机器的通用安装命令。先做官方小任务验证轨迹、奖励与评估，再扩展到自己的 harness。记录模型/数据/依赖、种子、成本和 held-out 测试；训练脚本与 Agent Lightning Skill 都应先审核。Hermes 接入需要独立验证 harness 和模型代理兼容性，不能假定一键支持。
+
+### 安全、隐私、供应链与能力边界
+
+训练 rollout 能运行代码和工具：使用一次性容器、最小文件/网络权限、非生产凭据、Kubernetes 最小 RBAC、配额、超时和停止机制。Gateway/轨迹可能记录 prompt、源码、工具结果及敏感数据，应做脱敏、保留期限和访问审计。防 reward hacking、评测泄漏与环境被篡改；不能用训练集分数代替样本外验收。MIT 不自动覆盖模型权重、数据集、依赖与第三方 API；本次仅收录，未安装或训练。
