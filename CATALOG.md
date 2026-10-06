@@ -5,7 +5,7 @@
 | 分类 | 条目 | 适用场景 |
 | --- | --- | --- |
 | [金融 AI](catalog/financial-ai.md) | Kronos、FinRL | K线/量价序列预测、金融时间序列研究、金融强化学习实验与回测原型 |
-| [量化研究与市场数据](catalog/quant-data.md) | A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、Vibe-Trading | A 股数据、MCP 行情、技术指标、AI 投研、研究工程、回测与受控交易连接器 |
+| [量化研究与市场数据](catalog/quant-data.md) | A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、Vibe-Trading、QuestDB | A 股数据、MCP 行情、技术指标、AI 投研、研究工程、回测与受控交易连接器 |
 | [MCP、API 与 Agent 工具桥接](catalog/mcp-api-tools.md) | mcp2cli | 将受信任的 MCP、OpenAPI、GraphQL 发现并受限地转为 CLI/Agent 工具 |
 | [Agent 浏览器](catalog/agent-browser.md) | ego lite | Agent 浏览器自动化、复用本机登录态 |
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | GitReverse、CloakBrowser、Page Agent、scroll-world | 仓库/网站反向 Prompt、自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill |
@@ -36,3 +36,5 @@
 - 想将研发材料整理为中国专利交底/申请底稿，或建立私有专利解读与地图知识库：看 [**patent-disclosure-skill（中国专利.skill）**](catalog/vision-office.md)。先审核技能与数据外发边界；工具不能替代专业代理审核、全面查新或官方申请，未公开技术须授权和脱敏。
 
 - 想围绕产品探索差异明显的视觉方向、并排比较原型、截图还原并以真实画面迭代：看 [**Oil UI**](catalog/design-resources.md)。它是设计 Skill，不是组件库；区分 MIT 开源版与付费 Pro，审查更新检查、素材外发和宿主权限，不替代业务正确性与无障碍测试。
+
+- 想存储持续流入的 tick、订单簿、成交或遥测事件，并用时间序列 SQL 做实时聚合与 ASOF 对齐：看 [**QuestDB**](catalog/quant-data.md)。它不是数据供应商或交易系统；区分 Apache-2.0 开源版和 Enterprise 的高可用、安全与自动分层能力，先验证数据契约、权限、负载及备份恢复。
