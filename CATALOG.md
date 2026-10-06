@@ -5,7 +5,7 @@
 | 分类 | 条目 | 适用场景 |
 | --- | --- | --- |
 | [金融 AI](catalog/financial-ai.md) | Kronos、FinRL | K线/量价序列预测、金融时间序列研究、金融强化学习实验与回测原型 |
-| [量化研究与市场数据](catalog/quant-data.md) | A-Stock Data、stock-api、TA-Lib Python、PineTS、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、Vibe-Trading、QuestDB | A 股数据、MCP 行情、技术指标、AI 投研、研究工程、回测与受控交易连接器 |
+| [量化研究与市场数据](catalog/quant-data.md) | A-Stock Data、stock-api、TA-Lib Python、PineTS、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、Vibe-Trading、QuestDB TSP（tick-stock-panel）、| A 股数据、MCP 行情、技术指标、AI 投研、研究工程、回测与受控交易连接器 |
 | [MCP、API 与 Agent 工具桥接](catalog/mcp-api-tools.md) | mcp2cli、AOCI-CODE | 将受信任的 MCP、OpenAPI、GraphQL 发现并受限地转为 CLI/Agent 工具 |
 | [Agent 浏览器](catalog/agent-browser.md) | ego lite | Agent 浏览器自动化、复用本机登录态 |
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | GitReverse、CloakBrowser、Page Agent、scroll-world | 仓库/网站反向 Prompt、自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill |
@@ -42,3 +42,5 @@
 - 想让 Agent 跨会话复用 Git 版本化的代码/schema 语义索引，并治理范围、漂移和索引更新：看 [**AOCI-CODE**](catalog/mcp-api-tools.md)。当前为 RC、FSL-1.1-MIT 源码可见而非 OSI 开源；商业竞争性用途受限，各版本提供满两年后另授 MIT。索引不是源码或测试的替代，宿主模型仍可能外发源码。
 
 - 想把有权使用的 Pine Script 指标迁移到 Node.js/浏览器，用自有 OHLCV 做扫描和图表计算：看 [**PineTS**](catalog/quant-data.md)。它不等于 TradingView 完整环境；原生脚本支持仍需逐 bar 验证，AGPL-3.0/商业双许可须在闭源或 SaaS 接入前评估。
+
+- 想自托管 A 股选股、因子/策略回测、盘中监控与带确认卡的数据问答：看 [**TSP（tick-stock-panel）**](catalog/quant-data.md)。先用只读 MCP scope 和隔离数据评估；注意 Compose 的全接口监听及 Codex 凭据挂载，不将研究工作台当作真实交易或收益保证系统。
