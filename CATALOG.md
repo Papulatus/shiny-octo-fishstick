@@ -6,12 +6,12 @@
 | --- | --- | --- |
 | [金融 AI](catalog/financial-ai.md) | Kronos、FinRL | K线/量价序列预测、金融时间序列研究、金融强化学习实验与回测原型 |
 | [量化研究与市场数据](catalog/quant-data.md) | A-Stock Data、stock-api、TA-Lib Python、PineTS、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、Vibe-Trading、QuestDB TSP（tick-stock-panel）、| A 股数据、MCP 行情、技术指标、AI 投研、研究工程、回测与受控交易连接器 |
-| [MCP、API 与 Agent 工具桥接](catalog/mcp-api-tools.md) | mcp2cli、AOCI-CODE | 将受信任的 MCP、OpenAPI、GraphQL 发现并受限地转为 CLI/Agent 工具 |
+| [MCP、API 与 Agent 工具桥接](catalog/mcp-api-tools.md) | mcp2cli、AOCI-CODE、Agent Lightning | 将受信任的 MCP、OpenAPI、GraphQL 发现并受限地转为 CLI/Agent 工具、Agent 训练基础设施 |
 | [Agent 浏览器](catalog/agent-browser.md) | ego lite | Agent 浏览器自动化、复用本机登录态 |
-| [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | GitReverse、CloakBrowser、Page Agent、scroll-world | 仓库/网站反向 Prompt、自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill |
+| [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | GitReverse、CloakBrowser、Page Agent、scroll-world、UI-TARS | 仓库/网站反向 Prompt、自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill、视觉 GUI Agent |
 | [网页采集](catalog/web-scraping.md) | Scrapling | 动态站点、反爬场景、自适应选择器、规模化采集 |
-| [视觉 AI、CV 与办公](catalog/vision-office.md) | Qwen 多角度 3D Camera、Supervision、Larkboat、patent-disclosure-skill | 图像多视角、检测/分割后处理、文档/表格/PPT 办公、专利技术文档 |
-| [设计资源](catalog/design-resources.md) | Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills、Oil UI | 产品界面、原型、前端实现、UI 动效和 Agent 设计决策参考 |
+| [视觉 AI、CV 与办公](catalog/vision-office.md) | Qwen 多角度 3D Camera、Supervision、Larkboat、patent-disclosure-skill、AI剪口播 | 图像多视角、检测/分割后处理、文档/表格/PPT 办公、专利技术文档、口播转录与剪辑工程 |
+| [设计资源](catalog/design-resources.md) | Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills、Oil UI、IP as Logo | 产品界面、原型、前端实现、UI 动效和 Agent 设计决策参考、吉祥物候选图 |
 | [资源目录与邮箱](catalog/resources-email.md) | FMHY、Public APIs、邮箱助手 | 资源发现、API 候选、邮箱服务导航 |
 
 ## 快速选择
@@ -44,3 +44,11 @@
 - 想把有权使用的 Pine Script 指标迁移到 Node.js/浏览器，用自有 OHLCV 做扫描和图表计算：看 [**PineTS**](catalog/quant-data.md)。它不等于 TradingView 完整环境；原生脚本支持仍需逐 bar 验证，AGPL-3.0/商业双许可须在闭源或 SaaS 接入前评估。
 
 - 想自托管 A 股选股、因子/策略回测、盘中监控与带确认卡的数据问答：看 [**TSP（tick-stock-panel）**](catalog/quant-data.md)。先用只读 MCP scope 和隔离数据评估；注意 Compose 的全接口监听及 Codex 凭据挂载，不将研究工作台当作真实交易或收益保证系统。
+
+- 想了解 **Agent Lightning**：看 [Agent Lightning](catalog/mcp-api-tools.md)。先明确训练奖励、GPU 预算与隔离执行权限，v1.0 不沿用旧版接口。
+
+- 想了解 **IP as Logo**：看 [IP as Logo](catalog/design-resources.md)。先确认生成数量、模型费用和品牌权利，不保证生成资产可注册商标。
+
+- 想了解 **UI-TARS**：看 [UI-TARS](catalog/browser-web-agent.md)。先在授权测试设备验证动作和坐标，敏感操作人工批准；模型、客户端和权重许可分别核验。
+
+- 想了解 **AI剪口播**：看 [AI剪口播](catalog/vision-office.md)。音频会上传火山引擎，需人工审核切点；AGPL 与云转录条款分别评估。
