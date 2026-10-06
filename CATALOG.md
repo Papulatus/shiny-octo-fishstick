@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | [金融 AI](catalog/financial-ai.md) | Kronos、FinRL | K线/量价序列预测、金融时间序列研究、金融强化学习实验与回测原型 |
 | [量化研究与市场数据](catalog/quant-data.md) | A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、Vibe-Trading、QuestDB | A 股数据、MCP 行情、技术指标、AI 投研、研究工程、回测与受控交易连接器 |
-| [MCP、API 与 Agent 工具桥接](catalog/mcp-api-tools.md) | mcp2cli | 将受信任的 MCP、OpenAPI、GraphQL 发现并受限地转为 CLI/Agent 工具 |
+| [MCP、API 与 Agent 工具桥接](catalog/mcp-api-tools.md) | mcp2cli、AOCI-CODE | 将受信任的 MCP、OpenAPI、GraphQL 发现并受限地转为 CLI/Agent 工具 |
 | [Agent 浏览器](catalog/agent-browser.md) | ego lite | Agent 浏览器自动化、复用本机登录态 |
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | GitReverse、CloakBrowser、Page Agent、scroll-world | 仓库/网站反向 Prompt、自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill |
 | [网页采集](catalog/web-scraping.md) | Scrapling | 动态站点、反爬场景、自适应选择器、规模化采集 |
@@ -38,3 +38,5 @@
 - 想围绕产品探索差异明显的视觉方向、并排比较原型、截图还原并以真实画面迭代：看 [**Oil UI**](catalog/design-resources.md)。它是设计 Skill，不是组件库；区分 MIT 开源版与付费 Pro，审查更新检查、素材外发和宿主权限，不替代业务正确性与无障碍测试。
 
 - 想存储持续流入的 tick、订单簿、成交或遥测事件，并用时间序列 SQL 做实时聚合与 ASOF 对齐：看 [**QuestDB**](catalog/quant-data.md)。它不是数据供应商或交易系统；区分 Apache-2.0 开源版和 Enterprise 的高可用、安全与自动分层能力，先验证数据契约、权限、负载及备份恢复。
+
+- 想让 Agent 跨会话复用 Git 版本化的代码/schema 语义索引，并治理范围、漂移和索引更新：看 [**AOCI-CODE**](catalog/mcp-api-tools.md)。当前为 RC、FSL-1.1-MIT 源码可见而非 OSI 开源；商业竞争性用途受限，各版本提供满两年后另授 MIT。索引不是源码或测试的替代，宿主模型仍可能外发源码。
