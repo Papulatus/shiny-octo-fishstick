@@ -467,3 +467,53 @@ docker run --name questdb-eval \
 - 做磁盘/分区保留、WAL 积压、写入错误和查询并发监控，设置资源预算与恢复目标。开源单实例不等于已具备高可用、灾备或商业 SLA。
 - Apache-2.0 再分发需遵循许可证、声明及适用 NOTICE 要求；不自动授权 QuestDB 商标或第三方数据。此条目仅为选型与接入参考，未运行基准、部署或迁移现有 QuantDB。
 
+## PineTS — 在 JavaScript 环境运行 Pine Script 指标的转译器与时序运行时
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [LuxAlgo/PineTS](https://github.com/LuxAlgo/PineTS)；LuxAlgo 维护，不是 TradingView 官方项目 |
+| 文档与包 | [官方文档](https://docs.luxalgo.com/developers/pinets)、[npm pinets](https://www.npmjs.com/package/pinets) |
+| 分类 | 量化研究与市场数据 / 技术指标、Pine Script 迁移与 JavaScript 分析运行时 |
+| 许可证 | AGPL-3.0 / 商业双许可；已读 LICENSE，package.json 标为 AGPL-3.0-only；闭源与服务部署需核对 [商业许可说明](https://github.com/LuxAlgo/PineTS/blob/main/LICENSE-COMMERCIAL.md) |
+| 技术形态 | TypeScript 转译器、JavaScript 运行时；Node.js/浏览器构建，ESM/CJS 与类型声明 |
+| 收录快照 | 2026-10-07 CST；835 stars、190 forks；未归档 |
+| 维护快照 | v0.11.0，2026-10-01 发布；同日 main 提交 `c5e6b0efee7e42d78b42d96f14173f38be082551`；最近推送 2026-10-06 |
+
+### 是什么
+
+把 Pine Script v5/v6 源码转译并在自有 JavaScript 环境执行的工具，支持历史回看、状态持久化、技术指标计算和可读取的 plot 序列。可用来迁移自己有权使用的指标、将计算接入警报或研究管线。它不是 TradingView 云运行环境、图表服务或行情授权；README 将原生 v6 支持标为 experimental，因此不能将“1:1 语法兼容”的描述当作所有脚本语义完全等价的实测保证。
+
+### 核心能力
+
+- 原生 Pine Script 与 JavaScript 友好语法两种入口，输出 plot 时序结果。
+- SMA、EMA、RSI、MACD、布林带等技术分析函数；时序回看、bar 状态与持久变量。
+- 新 bar 驱动的增量计算、多周期 request.security；具体函数与参数覆盖回到当前 API coverage 验证。
+- 内置 Binance、FMP、Alpaca 等数据入口或自定义 OHLCV 数组；数据来源不是免费、不限额或跨地域可用的保证。
+- npm 构建便于接入 Node.js 或浏览器；图表渲染、交易执行与回测撮合需独立评估，不从仓库描述中的 strategies 推断具备完整交易仿真。
+
+### 适合什么
+
+已有 Pine 指标迁移、自有行情的批量扫描、前端指标展示和 Node.js 研究/警报管线。与 TA-Lib 的常用数值指标计算不同，PineTS 更着重脚本执行与 Pine 时序语义。若只需几个标准指标，先比较现有库，避免为脚本迁移增加不必要复杂度。
+
+### 推荐接入方式
+
+```bash
+# 参考安装方式，本次未安装
+npm install pinets@0.11.0
+```
+
+1. 先做许可证评估，固定包版本和 lockfile，在隔离项目用自有 OHLCV 与简单 SMA/EMA 验证输入与 plot 输出。
+2. 为每个迁移脚本建立黄金样本，对齐交易所时区、bar 开闭时间、交易日、复权、缺失值、预热长度和数值精度。
+3. 重点核验 request.security 的周期边界、lookahead、未收盘 bar 与 repaint；不得引入未来信息后宣称回测收益。
+4. 将结果接入已有图表或研究服务，先做离线与 paper 验证；订单权限、资金风控与撮合不能由指标运行时代替。
+5. 对脚本执行设资源限额、取消/超时和隔离；编译执行器不是已验证的安全沙箱，不向不可信脚本提供服务端 Secret 或生产进程权限。
+
+### 安全、合规与能力边界
+
+- **许可优先**：AGPL 的复制、修改、分发和网络交互源码义务可能影响集成应用；商业闭源或 SaaS 使用应按实际架构完成法务评估，不能假定 npm 可下载就可无条件闭源部署。上游提供商业授权，具体条款与费用需单独确认。
+- **脚本版权与商标**：Pine Script/TradingView 是相关注册商标；项目声明无官方关联。代码公开可见不自动授权复制第三方付费或受保护指标，禁止借此绕过平台访问控制。
+- **语义一致性需实测**：逐 bar 对账、增量与批量结果对比，测试边界、数值误差和版本升级回归；函数覆盖率不是所有脚本兼容性证明。
+- **数据与凭据**：交易所/数据 API 另有账户、地域、再分发与速率条款；浏览器不可嵌入 Secret。不要将生产资金账户交给指标脚本，警报不等于交易决策授权。
+- **供应链与执行隔离**：审查 npm 包、依赖及转译执行路径，限制 CPU、内存、网络和输出；网络调用与大规模计算必须可中断和审计。
+- 此收录不构成投资建议，未安装、测试 PineTS、验证性能或迁移用户指标；盈利、精度与兼容性仍需独立验证。
+
