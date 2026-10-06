@@ -52,8 +52,8 @@ Kronos 是针对金融 K 线（OHLCV）序列预训练的开源基础模型家�
 | PyPI | [FinRL](https://pypi.org/project/FinRL/) |
 | 许可证 | MIT（仓库 `LICENSE`） |
 | 技术形态 | Python；Gym 风格市场环境、数据处理、DRL Agent 与 train-test-trade 工作流 |
-| 收录快照 | 2026-08-05：15,919 stars、3,452 forks；未归档 |
-| 上游维护快照 | 默认分支 `master`；最近代码提交 2026-07-12（[`2334a5f`](https://github.com/AI4Finance-Foundation/FinRL/commit/2334a5fe6d30629157f13c3b0319e1637e15e123)）；最新 GitHub Release 为 [v0.3.8](https://github.com/AI4Finance-Foundation/FinRL/releases/tag/v0.3.8)，发布于 2026-03-20 |
+| 收录快照 | 2026-10-07 CST：16,563 stars、3,536 forks；未归档 |
+| 上游维护快照 | 默认分支 `master`；最近代码提交 2026-09-28（[`e60e26e`](https://github.com/AI4Finance-Foundation/FinRL/commit/e60e26e4870f00fbc704c6297edfd9d81816b3d3)）；仓库最近推送 2026-10-06；最新 GitHub Release 为 [v0.3.8](https://github.com/AI4Finance-Foundation/FinRL/releases/tag/v0.3.8)，发布于 2026-03-20 |
 
 ### 是什么
 
