@@ -33,7 +33,7 @@
 
 ## 当前重点收录
 
-- **金融与量化**：Kronos、[FinRL](catalog/financial-ai.md)、A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、[QuestDB](catalog/quant-data.md)。
+- **金融与量化**：Kronos、[FinRL](catalog/financial-ai.md)、A-Stock Data、stock-api、TA-Lib Python、[PineTS](catalog/quant-data.md)、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、[QuestDB](catalog/quant-data.md)。
 - **Agent 与网页**：ego lite、GitReverse、CloakBrowser、Page Agent、scroll-world、Scrapling。
 - **MCP 与 API 桥接**：mcp2cli、[AOCI-CODE](catalog/mcp-api-tools.md)（FSL 源码可见）。
 - **视觉、设计与办公**：Qwen Image Multiple Angles 3D Camera、Supervision、Larkboat、[中国专利.skill](catalog/vision-office.md#patent-disclosure-skill中国专利skill--专利交底申请底稿与私有知识库技能套件)、Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills、[Oil UI](catalog/design-resources.md)。
