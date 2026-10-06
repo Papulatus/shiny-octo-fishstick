@@ -18,7 +18,7 @@
 | [Agent 浏览器](catalog/agent-browser.md) | 可保留登录态的人机协作浏览器 |
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | 网页内 Copilot、仓库/网站反向 Prompt、浏览器自动化运行时、沉浸式品牌页 Skill |
 | [网页采集](catalog/web-scraping.md) | 自适应解析、反爬与爬虫框架 |
-| [视觉 AI、CV 与办公](catalog/vision-office.md) | 多视角图像、CV 工具箱、文档/表格/PPT 自动化 |
+| [视觉 AI、CV 与办公](catalog/vision-office.md) | 多视角图像、CV 工具箱、文档/表格/PPT 自动化、专利交底与知识管理 |
 | [设计资源](catalog/design-resources.md) | 图标库、UI 组件与界面灵感/素材 |
 | [设计工程与 Agent Skills](catalog/design-resources.md) | UI 动效、交互审查、原型与设计决策 Skills |
 | [资源目录与邮箱](catalog/resources-email.md) | 资源/API 发现和邮箱服务导航 |
@@ -36,7 +36,7 @@
 - **金融与量化**：Kronos、A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner。
 - **Agent 与网页**：ego lite、GitReverse、CloakBrowser、Page Agent、scroll-world、Scrapling。
 - **MCP 与 API 桥接**：mcp2cli。
-- **视觉、设计与办公**：Qwen Image Multiple Angles 3D Camera、Supervision、Larkboat、Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills。
+- **视觉、设计与办公**：Qwen Image Multiple Angles 3D Camera、Supervision、Larkboat、[中国专利.skill](catalog/vision-office.md#patent-disclosure-skill中国专利skill--专利交底申请底稿与私有知识库技能套件)、Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills。
 - **资源发现**：FMHY、Public APIs、邮箱助手。
 
 ---
