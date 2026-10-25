@@ -412,3 +412,157 @@ docker compose up --build
 5. 远程部署必须设置强认证、可信 CORS/来源、HTTPS/反向代理、最小挂载目录和备份；Docker 更新前确认数据落在命名卷/独立持久目录，避免 `down -v` 意外删除研究记录、会话、技能或连接器配置。
 6. 上游迭代很快，README 新闻可能领先于 Release；应固定 Git commit/PyPI 版本、审阅 `requirements-lock.txt`、`SECURITY.md`、`Dockerfile`、MCP 工具和连接器代码，并在升级后重新跑回测/MCP/API smoke tests。
 
+## QuestDB — 面向行情、事件与遥测的高性能时序数据库
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [questdb/questdb](https://github.com/questdb/questdb) |
+| 官网与文档 | [questdb.com](https://questdb.com)、[官方文档](https://questdb.com/docs/)、[快速开始](https://questdb.com/docs/getting-started/quick-start/) |
+| 分类 | 量化研究与市场数据 / 时序存储、实时分析与数据基础设施 |
+| 许可证 | Apache-2.0；已核对 LICENSE.txt；第三方组件见 THIRD_PARTY_LICENSES.txt，Enterprise/托管服务另有条款 |
+| 技术形态 | Java 引擎及 C++/Rust 热路径，内存映射列式分区、WAL、SQL、Parquet；提供多语言客户端与 Web Console |
+| 收录快照 | 2026-10-07 CST；17,423 stars、1,660 forks；未归档 |
+| 维护快照 | 最新 GitHub Release 10.0.1，2026-08-24；master 提交 `6c63556431ae6513752e8c5943ab4409160f91d9`，2026-10-06 |
+
+### 是什么
+
+以时间戳为核心组织高吞吐写入和低延迟查询的数据库，适合 tick、成交、报价、订单簿、传感器和业务事件。它不是行情供应商、策略模型或交易执行系统；不会提供数据许可，也不会自动解决复权、交易日历、跨源主键与研究数据泄漏问题。PostgreSQL Wire 兼容便于接入现有客户端，但不代表完全等同 PostgreSQL 的 SQL、事务、扩展或 ORM 行为。
+
+### 核心能力
+
+- 按时间分区的列式存储、并发写入与查询、乱序事件处理和去重；WAL、去重配置与写入确认语义需要按版本和客户端验证，不将营销上的 exactly-once 自动扩展为全链路保证。
+- 时间序列 SQL：SAMPLE BY、LATEST ON、ASOF JOIN、WINDOW JOIN、HORIZON JOIN，可用于 OHLCV 聚合、最新状态和成交/报价时间对齐。
+- 物化视图聚合、原生数组；10.0 README 将 live views 标为 beta，采用前核验限制和升级兼容性。
+- QWP 二进制列式协议经 WebSocket 读写，支持 Arrow 查询结果；另提供 PostgreSQL Wire、InfluxDB Line Protocol 和 REST 兼容接口。各语言客户端的 QWP 支持程度不同，不能假定完全一致。
+- 原生存储与 Parquet 分区；开源版可显式转换，自动冷分区对象存储分层、复制/自动故障转移、RBAC/TLS/SSO/审计等 Enterprise 能力需独立核对商业版本。
+
+### 适合什么与选型边界
+
+适合持续采集的大规模行情、订单簿/成交分析、金融技术指标与遥测监控。若只是本机日线批量研究和文件分析，先评估现有 DuckDB/Parquet 是否已满足需求，不因高吞吐宣传就增加常驻服务。和通用 OLTP 数据库、分布式数仓比较时，用真实写入批次、乱序比例、symbol 基数、查询并发、数据保留期和磁盘预算测试。
+
+上游展示的千万行级吞吐来自指定硬件、协议和数据条件，并非本目录实测，不应直接用于容量承诺或交易时延保证。
+
+### 推荐接入方式
+
+先用官方固定版本镜像在隔离、回环环境评估（此命令为参考，本次未部署）：
+
+```bash
+docker run --name questdb-eval \
+  -p 127.0.0.1:9000:9000 -p 127.0.0.1:8812:8812 \
+  -v questdb-eval-data:/var/lib/questdb \
+  questdb/questdb:10.0.1
+```
+
+1. 9000 提供 Web Console、REST、HTTP 写入及 QWP；8812 为 PGWire。实际协议、认证与启用配置以所固定版本文档为准，不映射不需要的端口。
+2. 定义 designated timestamp、时区、symbol、时间分区和数据契约，再选择官方客户端/协议；测试乱序、更正、重复、schema 变化和故障重试。
+3. 用小样本对账 ASOF 时间方向、窗口边界、交易日与聚合结果；再开展持续压力、磁盘增长、重启恢复和备份恢复演练。
+4. 接入 Grafana、Pandas/Polars 或 BI 前核对版本与 SQL 支持。官方 [questdb/skills](https://github.com/questdb/skills) 和 Web Console MCP 是另外的 Agent 接入入口，不是本数据库仓库自带的无权限限制助手。
+
+### 安全、数据治理与运维边界
+
+- 不把默认控制台、REST 或 PGWire 直接暴露公网；验证认证，使用回环、私网、受控网关和 TLS。Enterprise 安全特性不能默认归属于开源部署，也不能仅凭配置名判断安全性。
+- Agent/MCP 从只读连接、表级范围和查询限额开始；DDL、删除分区、写入、导入及配置变更需人工审批和操作审计，避免自然语言直接生成破坏性 SQL。
+- 行情与交易数据的版权、交易所再分发条款、个人信息与企业保密要求独立适用；不要上传生产账户信息或密钥到公共 demo。
+- 固定版本、检查安全公告与 [SECURITY.md](https://github.com/questdb/questdb/blob/master/SECURITY.md)；升级前确认 WAL、格式、客户端兼容性及回滚可行性。备份遵循官方一致性方法，不能把运行时数据目录随意打包当成可靠快照。
+- 做磁盘/分区保留、WAL 积压、写入错误和查询并发监控，设置资源预算与恢复目标。开源单实例不等于已具备高可用、灾备或商业 SLA。
+- Apache-2.0 再分发需遵循许可证、声明及适用 NOTICE 要求；不自动授权 QuestDB 商标或第三方数据。此条目仅为选型与接入参考，未运行基准、部署或迁移现有 QuantDB。
+
+## PineTS — 在 JavaScript 环境运行 Pine Script 指标的转译器与时序运行时
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [LuxAlgo/PineTS](https://github.com/LuxAlgo/PineTS)；LuxAlgo 维护，不是 TradingView 官方项目 |
+| 文档与包 | [官方文档](https://docs.luxalgo.com/developers/pinets)、[npm pinets](https://www.npmjs.com/package/pinets) |
+| 分类 | 量化研究与市场数据 / 技术指标、Pine Script 迁移与 JavaScript 分析运行时 |
+| 许可证 | AGPL-3.0 / 商业双许可；已读 LICENSE，package.json 标为 AGPL-3.0-only；闭源与服务部署需核对 [商业许可说明](https://github.com/LuxAlgo/PineTS/blob/main/LICENSE-COMMERCIAL.md) |
+| 技术形态 | TypeScript 转译器、JavaScript 运行时；Node.js/浏览器构建，ESM/CJS 与类型声明 |
+| 收录快照 | 2026-10-07 CST；835 stars、190 forks；未归档 |
+| 维护快照 | v0.11.0，2026-10-01 发布；同日 main 提交 `c5e6b0efee7e42d78b42d96f14173f38be082551`；最近推送 2026-10-06 |
+
+### 是什么
+
+把 Pine Script v5/v6 源码转译并在自有 JavaScript 环境执行的工具，支持历史回看、状态持久化、技术指标计算和可读取的 plot 序列。可用来迁移自己有权使用的指标、将计算接入警报或研究管线。它不是 TradingView 云运行环境、图表服务或行情授权；README 将原生 v6 支持标为 experimental，因此不能将“1:1 语法兼容”的描述当作所有脚本语义完全等价的实测保证。
+
+### 核心能力
+
+- 原生 Pine Script 与 JavaScript 友好语法两种入口，输出 plot 时序结果。
+- SMA、EMA、RSI、MACD、布林带等技术分析函数；时序回看、bar 状态与持久变量。
+- 新 bar 驱动的增量计算、多周期 request.security；具体函数与参数覆盖回到当前 API coverage 验证。
+- 内置 Binance、FMP、Alpaca 等数据入口或自定义 OHLCV 数组；数据来源不是免费、不限额或跨地域可用的保证。
+- npm 构建便于接入 Node.js 或浏览器；图表渲染、交易执行与回测撮合需独立评估，不从仓库描述中的 strategies 推断具备完整交易仿真。
+
+### 适合什么
+
+已有 Pine 指标迁移、自有行情的批量扫描、前端指标展示和 Node.js 研究/警报管线。与 TA-Lib 的常用数值指标计算不同，PineTS 更着重脚本执行与 Pine 时序语义。若只需几个标准指标，先比较现有库，避免为脚本迁移增加不必要复杂度。
+
+### 推荐接入方式
+
+```bash
+# 参考安装方式，本次未安装
+npm install pinets@0.11.0
+```
+
+1. 先做许可证评估，固定包版本和 lockfile，在隔离项目用自有 OHLCV 与简单 SMA/EMA 验证输入与 plot 输出。
+2. 为每个迁移脚本建立黄金样本，对齐交易所时区、bar 开闭时间、交易日、复权、缺失值、预热长度和数值精度。
+3. 重点核验 request.security 的周期边界、lookahead、未收盘 bar 与 repaint；不得引入未来信息后宣称回测收益。
+4. 将结果接入已有图表或研究服务，先做离线与 paper 验证；订单权限、资金风控与撮合不能由指标运行时代替。
+5. 对脚本执行设资源限额、取消/超时和隔离；编译执行器不是已验证的安全沙箱，不向不可信脚本提供服务端 Secret 或生产进程权限。
+
+### 安全、合规与能力边界
+
+- **许可优先**：AGPL 的复制、修改、分发和网络交互源码义务可能影响集成应用；商业闭源或 SaaS 使用应按实际架构完成法务评估，不能假定 npm 可下载就可无条件闭源部署。上游提供商业授权，具体条款与费用需单独确认。
+- **脚本版权与商标**：Pine Script/TradingView 是相关注册商标；项目声明无官方关联。代码公开可见不自动授权复制第三方付费或受保护指标，禁止借此绕过平台访问控制。
+- **语义一致性需实测**：逐 bar 对账、增量与批量结果对比，测试边界、数值误差和版本升级回归；函数覆盖率不是所有脚本兼容性证明。
+- **数据与凭据**：交易所/数据 API 另有账户、地域、再分发与速率条款；浏览器不可嵌入 Secret。不要将生产资金账户交给指标脚本，警报不等于交易决策授权。
+- **供应链与执行隔离**：审查 npm 包、依赖及转译执行路径，限制 CPU、内存、网络和输出；网络调用与大规模计算必须可中断和审计。
+- 此收录不构成投资建议，未安装、测试 PineTS、验证性能或迁移用户指标；盈利、精度与兼容性仍需独立验证。
+
+## Tick Stock Panel（TSP）— 自托管 A 股选股、监控与回测研究工作台
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [shy3130/tick-stock-panel](https://github.com/shy3130/tick-stock-panel)，个人维护项目 |
+| 官网与文档 | [tsp.shy313.com](https://tsp.shy313.com)、[部署说明](https://github.com/shy3130/tick-stock-panel/blob/main/docs/deployment.md)、[MCP](https://github.com/shy3130/tick-stock-panel/blob/main/mcp-server/README.md) |
+| 分类 | 量化研究与市场数据 / A 股研究工作台、因子回测、监控与 Agent 接入 |
+| 许可证 | MIT；已核对 LICENSE，Copyright 2026 tick-stock-panel contributors；数据源、SDK、模型服务另有条款 |
+| 技术形态 | Python 3.11+ / FastAPI、Polars、DuckDB、Parquet；React/Vite/TypeScript；单容器、REST/SSE 与 stdio MCP |
+| 收录快照 | 2026-10-07 CST；5,643 stars、1,351 forks；未归档 |
+| 维护快照 | 最新 Release v0.3.3，2026-10-06；main 提交 `634adb61772303fa6402a561cb288238c45ea21a`，同日 |
+
+### 是什么
+
+将 A 股数据采集、指标/信号、策略扫描、因子与策略回测、监控、AI 解读和受控开放接口整合到本地的研究工作台。数据主体落在 Parquet/DuckDB 文件，不要求外部数据库服务。它不是券商终端、交易执行系统或保证收益的荐股软件；上游明确定位为学习和量化研究，不对标同花顺/通达信，也不宣称内置涨停预测。
+
+### 核心能力
+
+- 插件化数据源与按数据集能力路由：TickFlow、fuyao 及自定义源；共享 enriched 数据口径供选股、回测、监控与复盘使用。
+- 内置/自定义信号、策略及因子 DSL，IC/IR、分层研究、滚动样本外、策略/分钟回测；上游描述 T+1、费用和滑点处理，具体市场边界需逐项核验。
+- 市场环境、板块分析、连板梯队、竞价/盘中/偏移异动、规则监控、语音与飞书通知；部分个股分析与 AI 复盘标为 Beta。
+- 可选 OpenAI 兼容模型用于策略生成、财务/个股解读和对话查询；助手写操作采用确认卡与超时取消，工具轨迹可核对。仅文本接口可用不等于支持助手所需工具调用。
+- README 快照列出 61 个开放 API、六档 Token scope 和 12 个 MCP 工具；数据查询、扩展表写入和回测权限分离。MCP 不暴露模拟盘交易，面板网关才是实际权限裁决点。
+
+### 适合什么
+
+个人 A 股量化研究、因子/策略候选筛选、盘中规则监控、受控数据问答，以及学习数据源插件和统一研究链路设计。与 FinRL 的强化学习实验、PineTS 的 Pine 指标执行或 QuestDB 的时序存储不同，它偏完整应用工作台。
+
+对已有 QuantDB / datafeed_gateway / market_breadth 用户，可先研究其能力路由、确认卡、回测复测与开放 API 设计，不直接替换已有数据契约或生产模型。上游的“零运维、毫秒级、无未来函数、测试全绿”是项目描述，不是本目录的性能或正确性实测。
+
+### 推荐接入方式
+
+1. 先核对发布与镜像版本，固定 tag 或 digest；在独立数据目录、回环端口 3018 运行，不直接接管现有服务。本次未部署或拉取镜像。
+2. 使用隔离凭据按需配置数据源与 AI，先检测真实能力档位，确认日线、分钟、财务及除权数据的覆盖和费用。免费模式和插件服务条款以当前上游为准。
+3. 从小标的池和短区间对账开始，核验复权、公告日 PIT、停牌、涨跌停、成交容量、成本、缺失值与回测时序；样本外验证后再考虑候选发布。
+4. 外部 Agent/MCP 先仅授 `read:market,read:ext,read:analysis`，通过 TSP_BASE、TSP_TOKEN 与 stdio 连接；不把示例中的明文 Token 提交仓库。`TSP_SCOPES` 只是暴露工具范围，实际授权由网关决定。
+5. `write:ext` 会改变策略数据面，`run:backtest` 会消耗计算资源，单独审批、设置限额并保留审计；模拟盘与真实账户严格隔离。
+
+### 安全、隐私、供应链与运维边界
+
+- 已读 Compose 默认 HOST 为 0.0.0.0，会监听所有接口；自用评估设 HOST=127.0.0.1，验证密码与 Token，公网发布必须配受控网关、TLS 和访问策略。
+- Compose 会只读挂载主机 Codex 凭据目录，后端可复制到单请求临时环境；只读不等于无法读取凭据。无需 Codex 模式时移除此挂载，只在受信任镜像与明确授权下启用。
+- AI 可能向模型供应商发送自选、持仓、财务上下文和对话，数据落本地不等于全链路离线；审查供应商存储、训练和删除策略。飞书 Webhook、API Key 和开放 Token 均使用 Secret 管理。
+- 插件、自定义后端及策略属于可执行扩展，需源码审查、版本固定和最小目录/网络权限；不要把隔离失败跳过等机制视为充分安全沙箱。
+- 模型确认卡、scope、限流和风险提示不是投资风控系统；保持人工批准、计算预算、吊销、审计和停止机制，不授予真实交易权限。
+- MIT 只覆盖项目代码，TickFlow、fuyao、stock-sdk、行情再分发、模型与图表依赖按各自协议核验；不因接口存在推断获得同花顺或交易所授权。
+- 单容器仍需备份数据与配置、验证恢复、磁盘/任务监控和升级回滚；不要自动追 latest。GHCR 镜像与自构建的插件/老 CPU 支持可能不同，采用前确认。
+- 本次仅收录，未测试应用、接入数据、安装 MCP 或运行回测；研究结果不构成投资建议，历史收益不能证明未来表现。
+

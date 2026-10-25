@@ -2,39 +2,26 @@
 
 本页区分三类能力：**网页内 Copilot**（嵌入自己产品）、**Agent 浏览器运行环境**（代替/增强 Playwright）和**设计/内容生成 Skill**。它们的权限边界完全不同：可操控真实登录态或规避检测的工具，必须采用最小权限、人工确认和审计日志。
 
-## Agent QA — 给 Coding Agent 的浏览器与移动端 QA 工作流
+## agent-qa — 具备记忆与自我改进能力的网页和移动端 QA
 
 | 字段 | 信息 |
 | --- | --- |
 | 上游 | [vostride/agent-qa](https://github.com/vostride/agent-qa) |
-| 文档 | [vostride.com/docs/agent-qa](https://vostride.com/docs/agent-qa) |
-| 许可证 | FSL-1.1-ALv2（source-available；每个版本公开可用两年后可改用 Apache-2.0） |
-| 技术形态 | Node.js 24+ CLI；MCP stdio；外接模型、浏览器与移动设备 provider |
-| 收录快照 | 2026-08-17：npm `0.1.21`、852 stars；上游最近推送 2026-08-03 |
+| 文档 | [agent-qa 文档](https://vostride.com/docs/agent-qa) |
+| 许可证 | [FSL-1.1-ALv2](https://github.com/vostride/agent-qa/blob/main/LICENSE.md)；竞争性商业用途受限，每个版本公开满两年后另授 Apache-2.0 |
+| 技术形态 | Node.js 24+；CLI、dashboard、MCP 与四个 Agent Skills |
+| 收录快照 | 2026-10-25：893 stars；上游最近推送 2026-10-24 |
 
-### 是什么
+### 核心能力与适用场景
 
-Agent QA 是面向 Coding Agent 和开发团队的 QA harness。测试以自然语言 YAML 定义网页或移动端动作与断言，可从 dashboard、CLI 或 MCP 入口调用。上游还提供执行记忆、动作缓存、自愈式重试和隔离 hook 等能力；这些机制用于减少 UI 变化造成的脆弱失败，但不能替代对最终证据的人工复核。
+agent-qa 通过自然语言描述的用户旅程测试网页、Android 和 iOS，并保留运行证据。memidex 记忆引擎将事实与可复用流程保存为仓库内可评审的文件；自我改进机制验证运行中学到的经验、淘汰过时知识，并根据反馈纠正错误。适合在 Coding Agent 修改应用后执行关键路径回归和分析失败证据。
 
-### 接入与输出边界
+### 接入与采用边界
 
-- 初始化项目使用 `npx agent-qa init`；CLI 可用 `npx agent-qa run <test.yaml>` 运行定义。
-- MCP stdio 入口是 `npx agent-qa mcp`，适合由支持 MCP 的 Coding Agent 发现和调用 QA 工具。
-- 网页执行需要安装相应浏览器运行支持；移动端项目需要安装移动驱动。模型、浏览器和设备 provider 需单独配置，其账户、额度或运行费用不包含在 Agent QA 中。
-- Node、Bun、Python 或 Bash hook 运行在 Docker 容器中；使用 hook 前必须另行安装并审查 Docker 权限。
-
-### 适合什么
-
-- 在 Agent 修改网页或移动应用后，用版本化测试定义做关键路径回归。
-- 让 Codex、Claude Code 等支持 MCP 的客户端触发 QA，再由人检查失败、日志与运行证据。
-- 把测试、配置、hook、memory 与 suite 逻辑保存在仓库中，随代码变更一起评审。
-
-### 风险与采用建议
-
-1. 当前许可证是 FSL-1.1-ALv2，不是 OSI 开源许可证；竞争性产品/服务用途受到限制。采用、修改或再分发前应阅读随版本提供的 `LICENSE.md`，并按该版本公开满两年的日期判断 Apache-2.0 future license 是否已经生效。
-2. 先在专用测试环境和低权限账号运行。付款、发布、删除、发信或生产数据写入等动作必须增加人工确认，并限制 provider 凭据权限。
-3. 自动修复或记忆命中不等于测试正确；评审测试定义、实际 UI 状态、失败路径和证据后再接受结果。
-4. 固定 npm 版本并复核 Node、浏览器、移动驱动、Docker 与 provider 的版本兼容性。不同 MCP 客户端和 provider 组合仍需在目标环境实测。
+- 按官方 quickstart 安装 `agent-qa`，运行 `npx agent-qa init`，再配置模型与浏览器/设备 provider；可通过 CLI、dashboard 或 MCP 和技能接入工作流。
+- 软件在许可证允许的用途下无需软件费用；模型、浏览器或设备服务可能单独计费，具体用途应核对随版本提供的许可证。
+- 在获授权的测试环境中使用专用账号，保护 provider 凭据；对付款、发布、删除等操作增加人工确认，并复核测试定义和实际运行证据。
+- 本条目依据官方 README、许可证和文档整理；未进行产品运行测试。
 
 ## CloakBrowser — 源码级指纹修补的 Chromium 自动化运行时
 
@@ -210,3 +197,28 @@ GitReverse 是一个面向开发者和 Coding Agent 的 Web 应用：用户输�
 - **凭据与支付面**：GitHub Token、LLM Key、Supabase 凭据、Stripe Secret、Firecrawl/context.dev Key 都是高敏感配置；Stripe 路由和用户历史尤其需要权限隔离、Webhook 验签、额度和审计。
 - **供应链与许可证**：仓库未提供 `LICENSE`，源码是否允许复制、修改、部署和再分发不能从“公开 GitHub”推断。安装依赖和部署前应锁定 commit、审查 lockfile 与 server routes。
 - **公共数据隐私**：公开仓库 URL、生成 Prompt、embedding、浏览统计和用户历史可能形成可识别的研究轨迹；上线 `/library`、缓存和分享页时要明确保留期限、删除路径和访问控制。
+
+## UI-TARS — 视觉驱动 GUI Agent 模型与动作解析研究
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [bytedance/ui-tars](https://github.com/bytedance/UI-TARS) |
+| 文档/入口 | [项目文档](https://seed-tars.com/) |
+| 许可证 | Apache-2.0；已检查根 LICENSE，第三方模型、数据与服务另行核验 |
+| 技术形态 | 视觉语言模型研究、Python 动作解析与桌面/移动端 prompt；权重另行下载 |
+| 收录快照 | 2026-10-07 CST；11,562 stars、884 forks；未归档 |
+| 维护快照 | 无 GitHub Release；默认分支提交 `582f3a7ea5d285ee8ed9e2e84048d1ab01453c49`，2025-09-05；最近推送 2026-01-27 |
+
+### 是什么、核心能力与适用场景
+
+这是 ByteDance 的 GUI Agent 模型与推理参考仓库，不是 UI-TARS-desktop 应用本身。README 链接独立桌面项目和 Midscene 网页自动化，并提供 UI-TARS-1.5-7B 权重入口；UI-TARS-2 的研究公告不能直接证明本仓库有全部对应权重和部署实现。
+
+根据屏幕截图生成动作描述，提供 computer/mobile/grounding 模板及动作解析、坐标转换、PyAutoGUI 代码生成。适合授权 GUI 自动化研究、grounding 评测与隔离设备上的交互实验。上游基准分数、游戏表现与模型规模有对应条件，不能视为实际机器成功率或安全保证。
+
+### 推荐接入方式
+
+先阅读 README_deploy.md 和 README_coordinates.md，固定模型/代码并核验权重模型卡、算力和接口需求；`pip install ui-tars` 提供解析工具，不会单独完成模型部署或执行授权。坐标缩放、截图分辨率、DPI 与模型类型必须一致。在虚拟机或测试账号中先观察解析动作再执行，保留截图与结果证据。需要桌面客户端时评估独立 UI-TARS-desktop，不混淆两者安装与许可。
+
+### 安全、隐私、供应链与能力边界
+
+GUI 执行器可能点击支付、发送消息、删除文件或改设置；使用最小账号权限、动作白名单、敏感操作人工批准、审计和紧急停止。模型输出与生成的 Python 不能未经校验直接任意执行。截图可能含凭据、聊天、企业信息，远端推理需审查数据政策。README 提及 CAPTCHA 能力不构成绕过访问控制的授权；不要用于未授权登录或反自动化规避。代码 Apache-2.0，权重、数据、桌面客户端与第三方站点条款分别确认；未部署或实测。

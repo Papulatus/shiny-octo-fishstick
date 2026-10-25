@@ -13,14 +13,14 @@
 | 类别 | 内容 |
 | --- | --- |
 | [金融 AI](catalog/financial-ai.md) | 市场时间序列、量化研究与金融基础模型 |
-| [量化研究与市场数据](catalog/quant-data.md) | A 股数据、行情 MCP、研究工程、回测/交易框架 |
-| [MCP、API 与 Agent 工具桥接](catalog/mcp-api-tools.md) | 将 MCP、OpenAPI 与 GraphQL 安全地接入 CLI/Agent |
+| [量化研究与市场数据](catalog/quant-data.md) | A 股数据、行情 MCP、研究工程、回测/交易框架与时序数据库 |
+| [MCP、API 与 Agent 工具桥接](catalog/mcp-api-tools.md) | 将 MCP、OpenAPI 与 GraphQL 接入 CLI/Agent，以及代码与 schema 认知索引治理 |
 | [Agent 浏览器](catalog/agent-browser.md) | 可保留登录态的人机协作浏览器 |
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | 网页内 Copilot、仓库/网站反向 Prompt、浏览器自动化运行时、沉浸式品牌页 Skill |
 | [网页采集](catalog/web-scraping.md) | 自适应解析、反爬与爬虫框架 |
-| [视觉 AI、CV 与办公](catalog/vision-office.md) | 多视角图像、CV 工具箱、文档/表格/PPT 自动化 |
+| [视觉 AI、CV 与办公](catalog/vision-office.md) | 多视角图像、CV 工具箱、文档/表格/PPT 自动化、专利交底与知识管理 |
 | [设计资源](catalog/design-resources.md) | 图标库、UI 组件与界面灵感/素材 |
-| [设计工程与 Agent Skills](catalog/design-resources.md) | UI 动效、交互审查、原型与设计决策 Skills |
+| [设计工程与 Agent Skills](catalog/design-resources.md) | UI 动效、交互审查、原型、多方向视觉探索与设计决策 Skills |
 | [资源目录与邮箱](catalog/resources-email.md) | 资源/API 发现和邮箱服务导航 |
 
 ## 收录原则
@@ -33,11 +33,16 @@
 
 ## 当前重点收录
 
-- **金融与量化**：Kronos、A-Stock Data、stock-api、TA-Lib Python、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner。
+- **金融与量化**：[TSP（tick-stock-panel）](catalog/quant-data.md)、Kronos、[FinRL](catalog/financial-ai.md)、A-Stock Data、stock-api、TA-Lib Python、[PineTS](catalog/quant-data.md)、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、[QuestDB](catalog/quant-data.md)。
 - **Agent 与网页**：ego lite、GitReverse、CloakBrowser、Page Agent、scroll-world、Scrapling。
-- **MCP 与 API 桥接**：mcp2cli。
-- **视觉、设计与办公**：Qwen Image Multiple Angles 3D Camera、Supervision、Larkboat、Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills。
+- **MCP 与 API 桥接**：mcp2cli、[AOCI-CODE](catalog/mcp-api-tools.md)（FSL 源码可见）。
+- **视觉、设计与办公**：Qwen Image Multiple Angles 3D Camera、Supervision、Larkboat、[中国专利.skill](catalog/vision-office.md#patent-disclosure-skill中国专利skill--专利交底申请底稿与私有知识库技能套件)、Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills、[Oil UI](catalog/design-resources.md)。
 - **资源发现**：FMHY、Public APIs、邮箱助手。
+
+
+- **Agent 训练**：[Agent Lightning](catalog/mcp-api-tools.md)，真实 harness 下的 RL 研究基础设施。
+- **视觉 GUI Agent**：[UI-TARS](catalog/browser-web-agent.md)，模型与解析工具，不等于桌面客户端。
+- **吉祥物与视频制作**：[IP as Logo](catalog/design-resources.md)、[AI剪口播](catalog/vision-office.md)。
 
 ---
 
