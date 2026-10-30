@@ -10,7 +10,7 @@
 | [Agent 浏览器](catalog/agent-browser.md) | ego lite | Agent 浏览器自动化、复用本机登录态 |
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | GitReverse、CloakBrowser、Page Agent、scroll-world、UI-TARS | 仓库/网站反向 Prompt、自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill、视觉 GUI Agent |
 | [网页采集](catalog/web-scraping.md) | Scrapling | 动态站点、反爬场景、自适应选择器、规模化采集 |
-| [视觉 AI、CV 与办公](catalog/vision-office.md) | Qwen 多角度 3D Camera、Supervision、Larkboat、patent-disclosure-skill、AI剪口播 | 图像多视角、检测/分割后处理、文档/表格/PPT 办公、专利技术文档、口播转录与剪辑工程 |
+| [视觉 AI、CV 与办公](catalog/vision-office.md) | Qwen 多角度 3D Camera、Supervision、Larkboat、patent-disclosure-skill、AI剪口播、衣装集 COSTUME-DB-01、姿势集 POSE-DB-01 | 图像多视角、检测/分割后处理、文档/表格/PPT 办公、专利技术文档、口播转录与剪辑工程、服装/姿态参考图库 |
 | [设计资源](catalog/design-resources.md) | Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills、Oil UI、IP as Logo | 产品界面、原型、前端实现、UI 动效和 Agent 设计决策参考、吉祥物候选图 |
 | [资源目录与邮箱](catalog/resources-email.md) | FMHY、Public APIs、邮箱助手 | 资源发现、API 候选、邮箱服务导航 |
 
@@ -52,3 +52,5 @@
 - 想了解 **UI-TARS**：看 [UI-TARS](catalog/browser-web-agent.md)。先在授权测试设备验证动作和坐标，敏感操作人工批准；模型、客户端和权重许可分别核验。
 
 - 想了解 **AI剪口播**：看 [AI剪口播](catalog/vision-office.md)。音频会上传火山引擎，需人工审核切点；AGPL 与云转录条款分别评估。
+
+- 想找 AI 绘图用的**服装参考图**或**无脸姿势线稿**：看 [衣装集 / 姿势集](catalog/vision-office.md)。两个站点只允许站内浏览，**明文禁止批量下载（含自动获取）、再分发与销售**；只能人工参考，不能当训练数据或素材库。
