@@ -22,6 +22,7 @@
 | [设计资源](catalog/design-resources.md) | 图标库、UI 组件与界面灵感/素材 |
 | [设计工程与 Agent Skills](catalog/design-resources.md) | UI 动效、交互审查、原型、多方向视觉探索与设计决策 Skills |
 | [资源目录与邮箱](catalog/resources-email.md) | 资源/API 发现和邮箱服务导航 |
+| [调研与研究 Skills](catalog/research-skills.md) | 多角度调研、论文评审与文献综述、咨询级报告、数据核对、仓库尽调（含本库维护的 Deep Research Anything） |
 
 ## 收录原则
 
