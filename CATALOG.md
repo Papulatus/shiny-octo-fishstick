@@ -13,9 +13,12 @@
 | [视觉 AI、CV 与办公](catalog/vision-office.md) | Qwen 多角度 3D Camera、Supervision、Larkboat、patent-disclosure-skill、AI剪口播、衣装集 COSTUME-DB-01、姿势集 POSE-DB-01 | 图像多视角、检测/分割后处理、文档/表格/PPT 办公、专利技术文档、口播转录与剪辑工程、服装/姿态参考图库 |
 | [设计资源](catalog/design-resources.md) | Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills、Oil UI、IP as Logo | 产品界面、原型、前端实现、UI 动效和 Agent 设计决策参考、吉祥物候选图 |
 | [资源目录与邮箱](catalog/resources-email.md) | FMHY、Public APIs、邮箱助手 | 资源发现、API 候选、邮箱服务导航 |
+| [调研与研究 Skills](catalog/research-skills.md) | Deep Research Anything（本库维护）、DeerFlow 2.0 | 多角度网络调研、论文精读、系统性文献综述、咨询级报告、数据/SQL 分析、开源仓库尽调 |
 
 ## 快速选择
 
+- 想让 Agent 系统性地做调研（不是搜一下就写）：看 [**Deep Research Anything**](catalog/research-skills.md)。一个技能覆盖六类调研任务，共享五阶段流程与"结论可追溯、不编造数据"的硬纪律；自带厂商中立的数据源契约（SQL/API/文件/MCP/脚本），不含任何私有数据源。
+- 想要现成的长任务运行环境（沙箱 + 子代理 + Web 工作台）：看 [**DeerFlow 2.0**](catalog/research-skills.md)。注意 v2 与 v1 是两套代码，v1 留在 `main-1.x` 分支；最小依赖是 LLM 端点 + 一个搜索 API key + Python 3.12。
 - 想做市场 OHLCV/K线预测或微调金融序列模型：看 **Kronos**。
 - 想以 Gym 风格环境比较 A2C、DDPG、PPO、SAC、TD3 等 DRL 策略，或复现教学/研究型 train-test-trade 流程：看 **FinRL**。它是研究框架；新建生产化交易系统应进一步评估上游推荐的 **FinRL-X / FinRL-Trading**，并独立完成风控、合规和实盘验证。
 - 想快速给 Agent 增加 A/港/美股查询：看 **stock-api**；想进行多源 A 股研究：看 **A-Stock Data**。
