@@ -257,9 +257,7 @@ npm install framer-motion lucide-react                 # 按该 block 的 import
 
 4. **双运行时是真的会并存，且体积可见**：`npm ls` 实测同时装入 `motion@12.43.0`（BoardUI）与 `framer-motion@14.11.0`（Bencho），图标侧 `@remixicon/react@4.9.0` 与 `lucide-react@1.70.0` 并存。产物 `JS 636.73 kB / gzip 204.47 kB`、CSS `120.26 kB`，Vite 直接报「chunk 超过 500 kB」。要上生产就按第 3 步做别名与按需引入，别默认两个都留着。
 
-   TypeScript 项目另有两个落地细节：`tsconfig` 的 `@/*` 要指到**项目根**（BoardUI 的 `components/`、`styles/`、`utils/` 不在 `src/` 下，且 `include` 也要把它们加进去）；TS 7 已**
-
-移除 `baseUrl`**，只保留 `"paths": { "@/*": ["./*"] }` 即可。
+   TypeScript 项目另有两个落地细节：`tsconfig` 的 `@/*` 要指到**项目根**（BoardUI 的 `components/`、`styles/`、`utils/` 不在 `src/` 下，且 `include` 也要把它们加进去）；TS 7 已移除 `baseUrl`，只保留 `"paths": { "@/*": ["./*"] }` 即可。
 
 ## AI 生成 UI 的提示规则
 
