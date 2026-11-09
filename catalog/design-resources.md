@@ -182,6 +182,49 @@ npm install framer-motion lucide-react                 # 按该 block 的 import
 **收录 ≠ 获得 Pro blocks 使用权。** MIT 仅覆盖仓库内免费内容：不得把 blocks 原样当作 kit/组件库再分发，Pro blocks 不可提交到其他仓库。站点照片不在 MIT 范围，用到图片的 block 自带灰色占位。引入前审查该 block 的 import 与网络请求（示例代码要求不发请求）、补齐 reduced-motion 回退、检查键盘与读屏可用性；Three.js/WebGL 类 block（crumple、orders-globe 等）在低端机与移动端要单独测性能。
 
 
+### 混搭指引：BoardUI 作骨架 + Bencho 作手感层
+
+两者是不同层级的东西，混搭的价值在于「骨架用 BoardUI、关键交互用 Bencho」，而不是二选一。前提是先接受一个边界：BoardUI 负责页面结构、数据展示与设计 token；Bencho 只负责少量交互瞬间的质感。
+
+| 层 | 用谁 | 不要越界 |
+| --- | --- | --- |
+| 页面外壳、栅格、间距、字阶 | BoardUI（`sidebar`、`stat-cards`、`tabs`、`breadcrumb`） | 不要让 Bencho block 承担布局 |
+| 表单与数据 | BoardUI（`input`、`combobox`、`date-picker`、`data-table`、`pagination`） | Bencho 没有这些语义，别拿演示块替代 |
+| 图表与指标卡 | BoardUI（`chart-1…5` token + 图表卡；免费层无图表卡） | Bencho 的 `price-chart`、`expenses` 属演示效果，不接真实数据管道 |
+| 交互瞬间 | Bencho（`wake-slider`、`toast-stack`、`dynamic-island`、`voice-note`、`thinking-loader`、`upload-dropzone`） | 单页别超过 2–3 个，否则视觉噪声压过功能 |
+
+#### 接入四步
+
+1. **先 init BoardUI**：`npx boardui@latest init -y`。它写入 `styles/theme.css`（Tailwind v4 `@theme` 语义层）、`styles/typography.css` 与 `.dark` 暗色切换，这一层是唯一的主题来源。
+2. **把 Bencho 的变量映射到 BoardUI 语义 token**，不要并存两套主题。Bencho `tokens.css` 头部自己就写着：*“Map these to your own theme rather than keeping two: a block only ever reads the names, never the values.”* 常用映射：
+
+   | Bencho 变量 | 映射到 BoardUI |
+   | --- | --- |
+   | `--bg`、`--board` | `--color-background-full` |
+   | `--card`、`--surface` | `--color-background-secondary-default` |
+   | `--surface-2`、`--surface-3` | `--color-background-tertiary-default` / `-quaternary-default` |
+   | `--ink` → `--ink-5` | `--color-text-primary` → `-secondary` / `-tertiary` / `-placeholder` / `-disabled` |
+   | `--on-ink`、`--on-slab` | `--color-text-white` |
+   | `--pane-edge`、`--pane-thumb` | `--color-separator-border` |
+   | `--focus` | `--color-border-focus-ring` |
+   | `--pick`、`--signal` | `--color-accent-500` / `--color-accent-600` |
+   | `--font-ui` | `var(--font-inter)`（BoardUI 与 Bencho 默认都是 Inter） |
+   | `--ok`、`--ember` | BoardUI 无对应语义位，保留在 Bencho 侧，不要硬套成 accent |
+
+   映射完成后，暗色随 BoardUI 的 `.dark` 自动生效，Bencho 自己的 `[data-theme="dark"]` 分支就不再需要。
+3. **依赖去重（实测两边的依赖清单）**。Bencho 的 `package.json` 声明 `framer-motion ^13.1.1`、`lucide-react ^1.31.0`、`three ^0.169.0`、`liquid-gooey ^0.2.1`；BoardUI 侧走 React Aria Components、Recharts、Motion 与 `@remixicon/react` 图标。三处冲突要处理：
+   - **图标两套**：`@remixicon/react` 与 `lucide-react` 选一套，同一页面内不要混。换成 remixicon 时逐个改该 block 的 import。
+   - **动画运行时两套**：BoardUI 用 `motion`，Bencho 用 `framer-motion`。先 `npm ls motion framer-motion` 确认打包里是否出现两份运行时；若两份，把 `framer-motion` 别名到 `motion` 并在真实页面验证动效未退化，而不是默认两个都留着。
+   - **`three` 体积大**：只有少数 block（如 `crumple`、`orders-globe`）需要，按需引入并做动态加载，不要为一个效果把 three 打进首屏。
+4. **视觉对齐**：外层容器用 BoardUI 的规格（`rounded-3xl`、`border-border-button-default`、`bg-background-secondary-default`），把 Bencho block 自带的圆角/阴影变量改成同一套；保持 4px 间距刻度；block 代码里的裸色值一律替换为映射后的变量，否则暗色下会露白。
+
+#### 混搭时必须自己补的边界
+
+- **音效遵守浏览器自动播放策略**：必须由用户手势触发，提供静音开关，禁止进页面就播；`sounds/` 是 Web Audio 合成，无素材文件但也无内建音量/开关 UI。
+- **reduced-motion**：Bencho 多数 block 未内置回退，需要自己加 `prefers-reduced-motion` 分支——BoardUI 的 `motion.md` 有现成写法。
+- **可访问性**：Bencho 是演示级交互，键盘可达、焦点顺序、读屏标签要逐块补测；BoardUI 组件虽基于 React Aria，自建页面同样要独立验收。
+- **许可证分层**：Bencho 免费块 MIT（改编需保留声明），BoardUI 免费层 MIT；两边 Pro 内容都不得再分发或公开源码——混搭不会改变这条。
+
 ## AI 生成 UI 的提示规则
 
 向 Agent 指定资源时，可附加以下约束：
