@@ -208,6 +208,9 @@ npm install framer-motion lucide-react                 # 按该 block 的 import
    | `--pane-edge`、`--pane-thumb` | `--color-separator-border` |
    | `--focus` | `--color-border-focus-ring` |
    | `--pick`、`--signal` | `--color-accent-500` / `--color-accent-600` |
+   | `--fill-on` | `--color-text-primary`（Bencho 用它画条/当墨色前景，**决定 block 观感的主变量**） |
+   | `--fill-slab` | `--color-background-primary-default`（Bencho 的"白板/卡片底"，浅色白、暗色深灰） |
+   | `--slab`、`--on-slab` | `--color-text-primary` / `--color-text-white` |
    | `--font-ui` | `var(--font-inter)`（BoardUI 与 Bencho 默认都是 Inter） |
    | `--ok`、`--ember` | BoardUI 无对应语义位，保留在 Bencho 侧，不要硬套成 accent |
 
@@ -224,6 +227,39 @@ npm install framer-motion lucide-react                 # 按该 block 的 import
 - **reduced-motion**：Bencho 多数 block 未内置回退，需要自己加 `prefers-reduced-motion` 分支——BoardUI 的 `motion.md` 有现成写法。
 - **可访问性**：Bencho 是演示级交互，键盘可达、焦点顺序、读屏标签要逐块补测；BoardUI 组件虽基于 React Aria，自建页面同样要独立验收。
 - **许可证分层**：Bencho 免费块 MIT（改编需保留声明），BoardUI 免费层 MIT；两边 Pro 内容都不得再分发或公开源码——混搭不会改变这条。
+
+#### 实测结论（2026-11-09，Vite 8 + React 19 + Tailwind v4）
+
+在一套真跑的项目里（`npx boardui@latest init -y` → `add button toast slider switch stat-cards` → 拷入 Bencho 的 `wake-slider` 与 `toast-stack`）验证，`tsc -b && vite build` 通过。四条实测结论，前两条是可复现的坑：
+
+1. **Bencho 的 block 不自带样式引入——这是最大的坑。** 免费仓库里 `WakeSlider.tsx` / `ToastStack.tsx` **没有 `import "./Xxx.css"`**，只「复制文件夹」拿到的是**无样式组件**：实测 `.wks-bar` 计算宽度 `0px`、背景透明，`.tst-toast` 没有卡片背景。必须由引入侧补：
+
+   ```ts
+   import './bencho/wake-slider/WakeSlider.css'
+   import './bencho/toast-stack/ToastStack.css'
+   ```
+
+   补上后立刻正常：条 `3×20px`、19 根 `[data-on]` 高亮，toast 卡片 `300×64`、圆角 `20px`、白底。
+
+2. **真正决定 Bencho 观感的是 `--fill-on` 与 `--fill-slab`，不是 `--ink`。** 条的颜色是 `color-mix(--fill-on 32%, --fill-slab)`，toast 卡片底色是 `--fill-slab`、文字是 `--fill-on`。只映射 `--ink` 会得到"看起来有元素但读不出来"的结果。两者分别对应 `--color-text-primary` 与 `--color-background-primary-default`，映射后光/暗两态都自动正确。
+
+3. **暗色穿透实测（不碰 Bencho 源码，只加 `.dark`）**：
+
+   | 变量 | 浅色解析 | 暗色解析 |
+   | --- | --- | --- |
+   | `--color-background-full` | `#fff` | `#121212` |
+   | `--color-text-primary` | `oklch(14.5% 0 none)` | `oklch(98.5% 0 none)` |
+   | `--fill-on`（桥接） | `oklch(14.5% 0 none)` | `oklch(98.5% 0 none)` |
+   | `--fill-slab`（桥接） | `rgb(255,255,255)` | `oklch(26.9% 0 none)` |
+   | Bencho 卡片实际底色 | `rgb(247,247,247)` | `oklch(0.205 0 none)` |
+
+   条与卡片随 BoardUI 语义层翻转，Bencho 自己的 `[data-theme="dark"]` 分支完全不需要。
+
+4. **双运行时是真的会并存，且体积可见**：`npm ls` 实测同时装入 `motion@12.43.0`（BoardUI）与 `framer-motion@14.11.0`（Bencho），图标侧 `@remixicon/react@4.9.0` 与 `lucide-react@1.70.0` 并存。产物 `JS 636.73 kB / gzip 204.47 kB`、CSS `120.26 kB`，Vite 直接报「chunk 超过 500 kB」。要上生产就按第 3 步做别名与按需引入，别默认两个都留着。
+
+   TypeScript 项目另有两个落地细节：`tsconfig` 的 `@/*` 要指到**项目根**（BoardUI 的 `components/`、`styles/`、`utils/` 不在 `src/` 下，且 `include` 也要把它们加进去）；TS 7 已**
+
+移除 `baseUrl`**，只保留 `"paths": { "@/*": ["./*"] }` 即可。
 
 ## AI 生成 UI 的提示规则
 
