@@ -98,6 +98,90 @@
 
 **建议**：把它用于灵感、局部组件和快速原型，而非未经审查整段复制。接入生产前检查响应式布局、无障碍、动画性能、暗色模式、依赖体积和项目设计 token 的一致性。
 
+### BoardUI — React + Tailwind 的后台与 Agent 界面设计系统（源码装进项目）
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [BoardUI/boardui](https://github.com/BoardUI/boardui)（作者 Mertcan Dundar Esmergul） |
+| 官网/文档/包 | [boardui.com](https://www.boardui.com/)；[组件库](https://www.boardui.com/components)；[llms-full.txt](https://www.boardui.com/llms-full.txt)；npm `boardui` 0.5.9 |
+| 许可证 | 免费层 MIT（已读根 LICENSE 原文：MIT License, © 2026 Mertcan Dundar Esmergul）；Pro 组件与模板另售，适用独立的 BoardUI License |
+| 技术形态 | React + Tailwind CSS v4，Next.js 优先；组件以源码写入项目（无运行时 npm 包）；底层为 React Aria Components（Apache-2.0）、Recharts / Motion / Tailwind（MIT） |
+| 收录快照 | 2026-11-09 CST；1,119 stars、91 forks；未归档 |
+| 上游维护快照 | 默认分支最新提交 `ec5c5eb3e2`（2026-10-02，信息型导出提交）；最近推送 2026-10-02；npm `boardui` 0.5.9 于 2026-10-31 发布；官方 Agent Skill 版本 2026.11.9 |
+
+#### 是什么
+
+面向数据看板与 Agent 界面的 React 设计系统。组件不是依赖包，而是 `npx boardui@latest add <name>` 写进你项目的源码文件，因此可以任意改动而不受上游升级影响。免费部分覆盖基础控件与应用外壳，并附带一个可部署的 AI 聊天 starter（首页即 demo，用自己的模型 key）；付费 Pro 一次性买断，解锁 19 张图表卡、agent 组件与 10 个整页模板。
+
+#### 核心能力
+
+- **基础控件族**：button / input / textarea / number-field / date-picker / time-field / combobox / select / input-otp / color-picker / file-upload / checkbox / radio / switch / segmented-control / search-field / tag-group / tooltip / toast / modal / drawer / popover / dropdown / context-menu / accordion / tabs / breadcrumb / pagination / tree-view / command-palette / table / data-table / data-grid / meter / progress / skeleton。
+- **Agent 界面构件**：composer（含附件与模型菜单）、流式任务列表、thinking 指示器、context/token 计量条、web-search 轨迹、plan-mode 问卷。
+- **设计层**：400+ design tokens（语义色、圆角、阴影、图表色、accent 色阶）+ Figma 同步的复合字阶 utility。
+- **给 Agent 的规范**：`init` 会写入 always-on 的 `AGENTS.md` 规则段与 `.cursor/rules/boardui.mdc`；官方 Agent Skill（`npx boardui@latest skill`）包含完整组件目录、主题系统、**页面组合模式**（Dashboard / Table / Auth / AI chat / Settings）与动效语言；MCP 两种形态（stdio 可写、HTTP 只读 5 工具）。
+
+#### 适合什么
+
+React 后台、管理面板与数据密集型内部工具；AI 聊天/agent 产品界面；需要源码级改造而非被 npm 包锁死的项目；要和 Figma 设计稿逐像素对齐的团队。**不适合**：只要 headless 无样式行为（直接用 React Aria Components）；希望靠 `npm update` 跟上游升级的项目；需要托管 UI 服务的场景。
+
+#### 推荐接入方式
+
+```bash
+npx boardui@latest init -y                 # 写 styles/、utils/ 与 AGENTS.md 规则
+npx boardui@latest add data-table --yes    # 装源码，自动补 npm 依赖
+npx boardui@latest skill --path <dir>      # 装 Agent Skill（或 --client codex → ~/.agents/skills）
+npx -y boardui@latest mcp                  # stdio MCP（可写文件）；HTTP 端点只读
+```
+
+免费层已能独立搭出完整后台（表格、表单、导航、浮层齐全），图表卡与整页模板属 Pro。本库已把官方 Skill 安装到 Hermes 技能目录 `~/.hermes/skills/creative/boardui`（5 个文件、124 KB），更新用 `npx boardui@latest skill --force`。
+
+#### 安全、隐私、供应链与能力边界
+
+**收录 ≠ 获得 Pro 源码使用权。** MIT 只覆盖 GitHub 免费仓库与免费组件；Pro 源码受 BoardUI License 约束，可以用于自己或客户的产品，但**不得再分发、公开源码、转售成模板/组件库/课程**。CLI 与 stdio MCP 都会**写文件并执行 npm 安装**——在受控分支先 diff 再合并，审查安装目标目录与依赖清单。HTTP MCP 端点只读；stdio 版具备写盘能力，应按最小权限授权。组件自带 React Aria 的可访问交互，但自建页面的键盘可达、focus 顺序、对比度、暗色模式与 reduced-motion 仍须独立验收。站点宣称的“Figma 对齐”“苹果系克制”属设计意图，不是合规或质量保证。
+
+### Bencho — 交互微动效 block 与界面音效库（手感层，不是组件基座）
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [cabralorenzo/bencho](https://github.com/cabralorenzo/bencho)（作者 Lorenzo Cabra） |
+| 官网/入口 | [bencho.dev](https://bencho.dev)（blocks / [sounds](https://bencho.dev/sounds) / [finds](https://bencho.dev/finds) / [bench](https://bencho.dev/bench)）；站点 `llms.txt` 列出全部 165 个 block |
+| 许可证 | 仓库根 LICENSE 原文为 MIT（© 2026 Lorenzo Cabra），但 GitHub API 归类为 `NOASSERTION`；MIT **不含** Pro blocks、Bencho 名称与山羊标识、站点照片 |
+| 技术形态 | React + TypeScript + framer-motion；每个 block 是独立文件夹（组件 + 样式 + 列 props 的 README）；`tokens.css` 3 KB；音效由 Web Audio 合成，无音频资源文件 |
+| 收录快照 | 2026-11-09 CST；99 stars、5 forks；未归档 |
+| 上游维护快照 | 默认分支最新提交 `c659924174`（2026-11-07，说明为“Card stack 加入免费块，免费块增至 47”）；最近推送 2026-11-07；无 GitHub Release |
+
+#### 是什么
+
+交互微动效库与界面音效库。免费仓库给 **47 个可实时把玩的 block + 24 个合成音效**；Pro（€99/年，或 €129 一次性）扩展到 160 个 block、140+ 音效、无限 bench 与 Bencho MCP。block 按**手势**分类（hover / press / drag / slide / swipe / type / select），每个都强调“能玩、能调参数、能拿走源码”。
+
+#### 核心能力
+
+- 打磨细节的交互样例：card-stack、slingshot、wake-slider、dynamic-island、voice-note、jelly-tabs、format-bar、status-picker、ai-autocomplete、thinking-loader、loading-state、context-meter、genie 效果、crumple（Three.js）、magnetic-letters、spec-inspector 等。
+- Sounds：24 个（Pro 140+）浏览器内合成音效，`sounds/sounds.ts` 单文件、无素材。
+- Bench：无限画布用于并排摆放与调参；Finds：他人交互作品灵感墙。
+- **明确不具备**：数据表格、分页、树、图表体系、完整表单控件族、页面模板与设计规范——它不是设计系统，不能当作唯一组件基座。
+
+#### 适合什么
+
+给已有 UI（尤其 shadcn/Tailwind 项目）补“手感与高级感”；营销页、个人工具、演示型产品的关键交互；查找某个微交互的实现思路。**不适合**：需要从零搭后台（缺表格/图表/表单族）；需要统一设计 token 体系的项目（只有 3 KB tokens.css）。
+
+#### 推荐接入方式
+
+在 bencho.dev 上逐个试玩、调好参数再拿代码：
+
+```bash
+cp -r blocks/<block> src/components/<block>            # 上游给的方式：复制文件夹
+npm install framer-motion lucide-react                 # 按该 block 的 import 按需装
+# 个别 block 另需 three 或 liquid-gooey，先读该 block 的 README
+```
+
+保留 MIT 著作权声明（社区 skill 建议在改编文件头加 `// Adapted from Bencho (MIT)`）。官方**没有** Agent Skill 与免费 MCP（MCP 属 Pro 权益）；网上另有第三方 bencho skill，非官方维护，采用前自行审查。
+
+#### 安全、隐私、供应链与能力边界
+
+**收录 ≠ 获得 Pro blocks 使用权。** MIT 仅覆盖仓库内免费内容：不得把 blocks 原样当作 kit/组件库再分发，Pro blocks 不可提交到其他仓库。站点照片不在 MIT 范围，用到图片的 block 自带灰色占位。引入前审查该 block 的 import 与网络请求（示例代码要求不发请求）、补齐 reduced-motion 回退、检查键盘与读屏可用性；Three.js/WebGL 类 block（crumple、orders-globe 等）在低端机与移动端要单独测性能。
+
+
 ## AI 生成 UI 的提示规则
 
 向 Agent 指定资源时，可附加以下约束：
