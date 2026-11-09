@@ -11,7 +11,7 @@
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | GitReverse、CloakBrowser、Page Agent、scroll-world、UI-TARS | 仓库/网站反向 Prompt、自家网页 Copilot、浏览器运行时、沉浸式品牌页 Skill、视觉 GUI Agent |
 | [网页采集](catalog/web-scraping.md) | Scrapling | 动态站点、反爬场景、自适应选择器、规模化采集 |
 | [视觉 AI、CV 与办公](catalog/vision-office.md) | Qwen 多角度 3D Camera、Supervision、Larkboat、patent-disclosure-skill、AI剪口播、衣装集 COSTUME-DB-01、姿势集 POSE-DB-01 | 图像多视角、检测/分割后处理、文档/表格/PPT 办公、专利技术文档、口播转录与剪辑工程、服装/姿态参考图库 |
-| [设计资源](catalog/design-resources.md) | Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、Emil Kowalski Skills、Oil UI、IP as Logo | 产品界面、原型、前端实现、UI 动效和 Agent 设计决策参考、吉祥物候选图 |
+| [设计资源](catalog/design-resources.md) | Lucide、Phosphor、Tabler、Radix、Uiverse Galaxy、BoardUI、Bencho、Emil Kowalski Skills、Oil UI、IP as Logo | 产品界面、原型、前端实现、React 后台/AI 界面组件基座、交互微动效与界面音效、UI 动效和 Agent 设计决策参考、吉祥物候选图 |
 | [资源目录与邮箱](catalog/resources-email.md) | FMHY、Public APIs、邮箱助手 | 资源发现、API 候选、邮箱服务导航 |
 | [调研与研究 Skills](catalog/research-skills.md) | Deep Research Anything（本库维护）、DeerFlow 2.0 | 多角度网络调研、论文精读、系统性文献综述、咨询级报告、数据/SQL 分析、开源仓库尽调 |
 
@@ -32,6 +32,9 @@
 - 想写 Python 采集脚本，且目标站点可能改版或有反自动化限制：看 **Scrapling**。
 - 想统一产品图标风格：通常先看 **Lucide** 或 **Tabler**；需要字重变化看 **Phosphor**；需要紧凑栅格看 **Radix Icons**；需要现成 CSS/Tailwind 灵感看 **Uiverse Galaxy**。
 - 想让 Agent 做更高质量的 UI 动效决策、审查或原型变体：看 **Emil Kowalski Skills**；按任务选择 `animate`、`review-animations`、`improve-animations` 或 `prototype`，并在真实设备与 reduced-motion 场景验收。
+
+- 想搭 React 后台、数据看板或 AI agent 界面，并希望**组件源码归自己**而不是依赖 npm 包：看 [**BoardUI**](catalog/design-resources.md)。免费层 62 个组件 + design tokens + 页面组合模式 Skill 已能搭出完整后台；19 张图表卡与整页模板属 Pro，MIT 只覆盖免费层，Pro 源码不可再分发；`init` 与 stdio MCP 会写文件并安装 npm 依赖，先在受控分支 diff。
+- 想给已有 UI 补**高级交互手感与界面音效**（滑块、Toast、Dynamic Island、voice note、AI thinking 指示器）：看 [**Bencho**](catalog/design-resources.md)。免费 47 个 block + 24 个合成音效，复制文件夹即用；它不是组件基座（无表格、分页、图表体系与表单族），Pro blocks 与站点照片不在 MIT 范围。
 
 - 想做模型无关的 CV 后处理、标注、跟踪和区域计数：看 **Supervision**。
 - 想发现公共 API、免费资源或邮箱服务：看 **Public APIs / FMHY / 邮箱助手**，但所有外链都必须单独核验。
