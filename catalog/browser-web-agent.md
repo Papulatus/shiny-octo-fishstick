@@ -2,6 +2,27 @@
 
 本页区分三类能力：**网页内 Copilot**（嵌入自己产品）、**Agent 浏览器运行环境**（代替/增强 Playwright）和**设计/内容生成 Skill**。它们的权限边界完全不同：可操控真实登录态或规避检测的工具，必须采用最小权限、人工确认和审计日志。
 
+## agent-qa — 具备记忆与自我改进能力的网页和移动端 QA
+
+| 字段 | 信息 |
+| --- | --- |
+| 上游 | [vostride/agent-qa](https://github.com/vostride/agent-qa) |
+| 文档 | [agent-qa 文档](https://vostride.com/docs/agent-qa) |
+| 许可证 | [FSL-1.1-ALv2](https://github.com/vostride/agent-qa/blob/main/LICENSE.md)；竞争性商业用途受限，每个版本公开满两年后另授 Apache-2.0 |
+| 技术形态 | Node.js 24+；CLI、dashboard、MCP 与四个 Agent Skills |
+| 收录快照 | 2026-10-25：893 stars；上游最近推送 2026-10-24 |
+
+### 核心能力与适用场景
+
+agent-qa 通过自然语言描述的用户旅程测试网页、Android 和 iOS，并保留运行证据。memidex 记忆引擎将事实与可复用流程保存为仓库内可评审的文件；自我改进机制验证运行中学到的经验、淘汰过时知识，并根据反馈纠正错误。适合在 Coding Agent 修改应用后执行关键路径回归和分析失败证据。
+
+### 接入与采用边界
+
+- 按官方 quickstart 安装 `agent-qa`，运行 `npx agent-qa init`，再配置模型与浏览器/设备 provider；可通过 CLI、dashboard 或 MCP 和技能接入工作流。
+- 软件在许可证允许的用途下无需软件费用；模型、浏览器或设备服务可能单独计费，具体用途应核对随版本提供的许可证。
+- 在获授权的测试环境中使用专用账号，保护 provider 凭据；对付款、发布、删除等操作增加人工确认，并复核测试定义和实际运行证据。
+- 本条目依据官方 README、许可证和文档整理；未进行产品运行测试。
+
 ## CloakBrowser — 源码级指纹修补的 Chromium 自动化运行时
 
 | 字段 | 信息 |
