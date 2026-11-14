@@ -411,3 +411,45 @@ npx skills add oil-oil/oil-ui
 ### 安全、隐私、供应链与能力边界
 
 生图通常向供应商发送品牌与产品信息，未公开资产先获授权并脱敏；费用和批量数量先确认。按用户需求审查版权、商标相似、可识别性和小尺寸效果，不能把“公司可用”当成法律清权证明。技能刻意不做输出质量门禁或自动修复，因此交付候选仍需人工选择与正式资产加工。提示词不标注 logo 用途不改变真实使用的权利义务，也不得用于规避服务安全规则。MIT 覆盖技能内容，生成模型与资产另有条款。
+
+
+## 像素艺术、游戏特效与创作 Skill
+
+### pixelfx — 代码驱动的像素特效库、动作编排与 Agent 创作 Skill
+
+| 字段 | 信息 |
+| --- | --- |
+| 官方上游 | [patch-gg/pixelfx](https://github.com/patch-gg/pixelfx)，Patch 维护 |
+| 在线演示与文档 | [交互画廊](https://patch-gg.github.io/pixelfx/) · [效果目录](https://github.com/patch-gg/pixelfx/blob/main/docs/CATALOG.md) · [创作规范](https://github.com/patch-gg/pixelfx/blob/main/docs/AUTHORING.md) · [Skill](https://github.com/patch-gg/pixelfx/tree/main/skills/pixelfx) |
+| 许可证 | 已读 LICENSE：代码与效果 MIT（© 2026 Patch、Hugo Duprez）；NOTICE 声明部分代码改编自 Sprite Fusion 与 Hollow Crown 的 MIT 源码，保留相应版权声明。**gallery/fonts/PatchPixel-Regular.woff2 字体不受 MIT 覆盖，All rights reserved**，不得把字体一起当免费资产再用 |
+| 技术形态 | JavaScript ESM，Node ≥18；浏览器运行时代码无第三方依赖；开发依赖 esbuild；GIF/MP4 预览可选 ffmpeg |
+| 收录快照 | 2026-11-14 CST；7,382 stars、955 forks；未归档 |
+| 维护快照 | package.json 版本 0.3.1；默认分支提交 `5294518ce7c7`（2026-11-12 UTC）；仓库 pushed_at 为 2026-11-13 UTC（不等同默认分支提交日期）；未发现 GitHub 正式 Release |
+
+#### 是什么
+
+它不是大模型图像 API，也不是通用网页组件库，而是用小段代码绘制像素动画的效果库，并附带教 Coding Agent 创作与迭代效果的 Skill。README 标示 244 个效果、21 类，含火焰、爆炸、水冰雷电、魔法、近战、天气、UI、拾取物、转场与小生物；另有 12 套带前摇、命中停顿、目标反馈、收招的完整动作。该数字是 README 的目录口径，不把源目录 JS 文件数直接等同可用效果数：收录时递归扫描 `src/fx/` 有 266 个 JS 文件，差异未逐项核对。
+
+#### 核心能力与适用场景
+
+- **程序化绘制而非图片生成服务**：纯函数效果按时间绘制；模拟效果使用固定步长更新粒子、碎片和光。color / light 双缓冲分别处理像素色与加法发光。
+- **复现和变体**：seed、palette、flip、angle、light 等参数控制随机种子、换色、镜像与方向。适合浏览器小游戏、像素风原型、法术/打击反馈和局部像素装饰。
+- **两种引擎接入**：Canvas/Phaser/PixiJS 等直接引用源码；Godot/Unity 等导出透明 PNG sprite sheet 与 Aseprite 风格 JSON，含帧区域、时长、pivot 等元数据，仍需验证目标引擎 importer。
+- **动作而不只是贴图**：`createAct` 编排角色与靶子的前摇、hit-stop、震屏和回弹；已有角色可只复用时序。部分贴身效果基于自带灰色角色，需要按自己的角色重制。
+- **Agent 创作循环**：先找已有特效，再草拟、渲染 contact sheet、看图、改最差部分、重复；`tools/check.mjs` 检查越界、接缝、非确定随机与慢帧。检查通过不等于审美和游戏性能已验收。
+
+#### 推荐接入方式
+
+1. 先在在线画廊选效果与配色，不为常规产品后台默认引入像素风。
+2. 在隔离分支审查源码、固定 commit，再按 README `npm i github:patch-gg/pixelfx` 或仅取需要的 core/效果文件；GitHub 依赖命令只是上游用法，生产依赖应锁定提交，不默认追 main。
+3. `node tools/render.mjs ice/frost-nova --sheet` 导出精灵图；`node tools/check.mjs ice/frost-nova` 做基础检查；GIF/MP4 需要可选 ffmpeg。
+4. Claude Code 可使用 `/plugin marketplace add patch-gg/pixelfx`、`/plugin install pixelfx@pixelfx`，也可复制 `skills/pixelfx` 到宿主技能目录。Skill 是指令与参考资料，**不是安装后就自带整套可执行库**；它会指导获取 checkout、执行 Node 工具并写入 records 等目录，先确定工作路径与写入权限。其他 Agent 的兼容性需单独验证。
+
+#### 安全、隐私、供应链与能力边界
+
+- 收录仅添加链接和说明，本库不复制第三方源码、字体或资产，不代表已安装 Skill/插件。
+- 代码与效果可依 MIT 商用，但必须保留版权与许可；画廊专有字体排除在外，第三方改编部分另看 NOTICE。
+- 运行工具与 Agent Skill 会执行代码、创建图像/视频/JSON 文件；先审查依赖、输出路径和覆盖行为，避免在家目录或生产仓库根部生成临时文件。
+- **本地效果生成与 Patch 发布是两回事**：预览/导出不要求购买图像模型 API；`pch login/init/publish` 是另一个 CLI 和账户/网络发布工作流，上游要求 Windows 上运行 Patch Desktop 做发布前测试。不得自动安装全局 CLI、登录或发布未经用户批准的内容。
+- 性能随分辨率、并发效果数量和 CPU 像素合成变化；“无运行时依赖”不代表零算力开销。移动端帧率、内存、循环接缝、透明度和亮背景发光效果需实测；强闪光/震屏提供减弱或关闭方式。
+- 本条为源码与文档收录审查，未实际运行渲染、测试游戏引擎导入或认证跨平台兼容性。
