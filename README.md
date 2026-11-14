@@ -19,7 +19,7 @@
 | [浏览器、网页 Agent 与自动化](catalog/browser-web-agent.md) | 网页内 Copilot、仓库/网站反向 Prompt、浏览器自动化运行时、沉浸式品牌页 Skill |
 | [网页采集](catalog/web-scraping.md) | 自适应解析、反爬与爬虫框架 |
 | [视觉 AI、CV 与办公](catalog/vision-office.md) | 多视角图像、服装/姿态参考图库、CV 工具箱、文档/表格/PPT 自动化、专利交底与知识管理 |
-| [设计资源](catalog/design-resources.md) | 图标库、React UI 组件库（BoardUI 源码型设计系统 / Bencho 交互与音效）、界面灵感素材 |
+| [设计资源](catalog/design-resources.md) | 图标库、React UI 组件库（BoardUI 源码型设计系统 / Bencho 交互与音效）、界面灵感素材、pixelfx 像素游戏特效与创作 Skill |
 | [设计工程与 Agent Skills](catalog/design-resources.md) | UI 动效、交互审查、原型、多方向视觉探索与设计决策 Skills |
 | [资源目录与邮箱](catalog/resources-email.md) | 资源/API 发现和邮箱服务导航 |
 | [调研与研究 Skills](catalog/research-skills.md) | 多角度调研、论文评审与文献综述、咨询级报告、数据核对、仓库尽调（含本库维护的 Deep Research Anything） |
@@ -33,6 +33,8 @@
 5. 目录中的外部链接是研究入口，不是安全、质量、版权、可用性或商业授权保证。
 
 ## 当前重点收录
+
+- **像素特效与游戏创作**：[pixelfx](catalog/design-resources.md)，程序化像素动画、精灵图导出和 Agent 创作 Skill；MIT 不包含画廊专有字体。
 
 - **金融与量化**：[TSP（tick-stock-panel）](catalog/quant-data.md)、Kronos、[FinRL](catalog/financial-ai.md)、A-Stock Data、stock-api、TA-Lib Python、[PineTS](catalog/quant-data.md)、LLMQuant Hermes、QuantSpace、Lumibot、WorldQuant Miner、[QuestDB](catalog/quant-data.md)。
 - **Agent 与网页**：ego lite、GitReverse、CloakBrowser、Page Agent、scroll-world、Scrapling。
